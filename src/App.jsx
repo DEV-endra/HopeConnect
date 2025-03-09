@@ -1,4 +1,10 @@
+import React from "react";
+import RoleSelection from "./components/RoleSelection.jsx";
 
-export default function App() {
-  
+function App() {
+  return (
+    <RoleSelection/ >
+  );
 }
+
+export default App;
