@@ -1,0 +1,468 @@
+.pageContainer {
+    display: flex;
+    min-height: 100vh;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.leftSection {
+    width: 60%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.rightSection {
+    width: 40%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.helpLink {
+    color: #666666;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.helpLink:hover {
+    color: #00c2a8;
+}
+
+.signInButton {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 2px solid #00c2a8;
+    border-radius: 8px;
+    background: transparent;
+    color: #00c2a8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signInButton:hover {
+    background: #00c2a8;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 194, 168, 0.15);
+}
+
+.formContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.welcomeText {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.welcomeText h2 {
+    font-size: 1.75rem;
+    color: #666666;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.welcomeText h1 {
+    font-size: 2.75rem;
+    color: #00c2a8;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.stepIndicator {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+}
+
+.stepIndicator:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    background: #e1e1e1;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #666666;
+    background: #ffffff;
+    border: 2px solid #e1e1e1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.activeStep {
+    background: #00c2a8;
+    border-color: #00c2a8;
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 194, 168, 0.2);
+}
+
+.completedStep {
+    background: #ffffff;
+    border-color: #00c2a8;
+    color: #00c2a8;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.formTitle {
+    margin: 0 0 0.5rem 0;
+}
+
+.formTitle h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.formSubtitle {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    color: #111827;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #00c2a8;
+    box-shadow: 0 0 0 4px rgba(0, 194, 168, 0.1);
+}
+
+.input::placeholder {
+    color: #9ca3af;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+    cursor: pointer;
+}
+
+.checkbox input {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.checkbox input:checked {
+    border-color: #00c2a8;
+    background-color: #00c2a8;
+}
+
+.checkbox span {
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: #00c2a8;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.button:hover {
+    background: #00b39b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 194, 168, 0.15);
+}
+
+.logoContainer {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.largeLogo {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.08));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.decorativeShapes,
+.shape1,
+.shape2,
+.shape3,
+.glowEffect {
+    display: none;
+}
+
+/* Additional styles for Step2 and Step3 */
+.passwordInput {
+    position: relative;
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.passwordToggle:hover {
+    color: #00c2a8;
+}
+
+.avatarUpload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 2rem;
+    border: 2px dashed #e5e7eb;
+    border-radius: 12px;
+    background: rgba(0, 194, 168, 0.02);
+    transition: all 0.3s ease;
+}
+
+.avatarUpload:hover {
+    border-color: #00c2a8;
+    background: rgba(0, 194, 168, 0.05);
+}
+
+.avatarPreview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatarPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.uploadButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 2px solid #00c2a8;
+    border-radius: 8px;
+    background: transparent;
+    color: #00c2a8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.uploadButton:hover {
+    background: #00c2a8;
+    color: #ffffff;
+}
+
+.uploadText {
+    font-size: 0.95rem;
+    color: #666666;
+    text-align: center;
+}
+
+.backButton {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: transparent;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.backButton:hover {
+    border-color: #00c2a8;
+    color: #00c2a8;
+    background: rgba(0, 194, 168, 0.05);
+}
+
+/* Error states */
+.error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.inputError {
+    border-color: #ef4444;
+}
+
+.inputError:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+    .pageContainer {
+        flex-direction: column;
+    }
+
+    .leftSection {
+        width: 100%;
+    }
+
+    .rightSection {
+        display: none;
+    }
+
+    .formContainer {
+        padding: 2rem 1.5rem;
+    }
+
+    .welcomeText h1 {
+        font-size: 2.25rem;
+    }
+
+    .welcomeText h2 {
+        font-size: 1.5rem;
+    }
+
+    .step {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .formTitle h1 {
+        font-size: 1.75rem;
+    }
+
+    .avatarUpload {
+        padding: 1.5rem;
+    }
+
+    .avatarPreview {
+        width: 100px;
+        height: 100px;
+    }
+
+    .uploadButton {
+        padding: 0.625rem 1rem;
+    }
+}

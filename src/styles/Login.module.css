@@ -1,0 +1,321 @@
+.pageContainer {
+    display: flex;
+    min-height: 100vh;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.leftSection {
+    width: 60%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.rightSection {
+    width: 40%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.helpLink {
+    color: #666666;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.helpLink:hover {
+    color: #00c2a8;
+}
+
+.signUpButton {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 2px solid #00c2a8;
+    border-radius: 8px;
+    background: transparent;
+    color: #00c2a8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signUpButton:hover {
+    background: #00c2a8;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 194, 168, 0.15);
+}
+
+.formContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.welcomeText {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.welcomeText h2 {
+    font-size: 1.75rem;
+    color: #666666;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.welcomeText h1 {
+    font-size: 2.75rem;
+    color: #00c2a8;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formTitle {
+    margin: 0 0 0.5rem 0;
+    text-align: center;
+}
+
+.formTitle h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.formSubtitle {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+    margin-bottom: 2rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    color: #111827;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #00c2a8;
+    box-shadow: 0 0 0 4px rgba(0, 194, 168, 0.1);
+}
+
+.input::placeholder {
+    color: #9ca3af;
+}
+
+.passwordInput {
+    position: relative;
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
+.passwordToggle:hover {
+    color: #00c2a8;
+}
+
+.forgotPassword {
+    text-align: right;
+    margin: -0.5rem 0 1.5rem;
+}
+
+.forgotPassword a {
+    color: #00c2a8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.forgotPassword a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: #00c2a8;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.button:hover {
+    background: #00b39b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 194, 168, 0.15);
+}
+
+.signupPrompt {
+    text-align: center;
+    color: #666666;
+    font-size: 0.95rem;
+}
+
+.textButton {
+    background: none;
+    border: none;
+    color: #00c2a8;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.textButton:hover {
+    text-decoration: underline;
+}
+
+.logoContainer {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.largeLogo {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.08));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+.inputError {
+    border-color: #ef4444;
+}
+
+.inputError:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+    .pageContainer {
+        flex-direction: column;
+    }
+
+    .leftSection {
+        width: 100%;
+    }
+
+    .rightSection {
+        display: none;
+    }
+
+    .formContainer {
+        padding: 2rem 1.5rem;
+    }
+
+    .welcomeText h1 {
+        font-size: 2.25rem;
+    }
+
+    .welcomeText h2 {
+        font-size: 1.5rem;
+    }
+
+    .formTitle h1 {
+        font-size: 1.75rem;
+    }
+}
