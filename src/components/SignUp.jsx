@@ -13,8 +13,8 @@ export default function SignUp() {
     email: '',
     password: '',
     name: '',
-    avatar: null
-  });
+    role:''
+    });
 
   const navigate = useNavigate();
 

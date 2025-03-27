@@ -3,22 +3,10 @@ import styles from '../../styles/SignUp.module.css';
 
 export default function Step3({ onBack, updateFormData, formData, navigate }) {
   const [name, setName] = useState(formData.name || '');
-  const [avatar, setAvatar] = useState(formData.avatar || null);
-  const [previewUrl, setPreviewUrl] = useState('');
   const [error, setError] = useState('');
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image size should be less than 5MB');
-        return;
-      }
-      setAvatar(file);
-      setPreviewUrl(URL.createObjectURL(file));
-      setError('');
-    }
-  };
+  const [username,setUsername]= useState(formData.username || '');
+  const [password, setPassword] = useState(formData.password || '');
+  const [email, setEmail] = useState(formData.email || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,14 +15,19 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
       return;
     }
 
-    updateFormData({ name, avatar });
-    
+    updateFormData({name});
     // Simulate account creation
     try {
-      // Here you would typically make an API call to create the account
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch("/api/SignUp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name:name, username:username, email:email, role:"helper", password:password}),
+      });
+      const data = await response.json();
+      alert(data.message);
       navigate('/dashboard');
     } catch (error) {
+      console.log(error);
       setError('Failed to create account. Please try again.');
     }
   };
@@ -60,27 +53,6 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
               setError('');
             }}
           />
-        </div>
-
-        <div className={styles.avatarUpload}>
-          <div className={styles.avatarPreview}>
-            {previewUrl ? (
-              <img src={previewUrl} alt="Profile preview" />
-            ) : (
-              <span className={styles.uploadText}>No image selected</span>
-            )}
-          </div>
-          <input
-            type="file"
-            id="avatar"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-          />
-          <label htmlFor="avatar" className={styles.uploadButton}>
-            {previewUrl ? 'Change Photo' : 'Upload Photo'}
-          </label>
-          <p className={styles.uploadText}>Maximum file size: 5MB</p>
         </div>
 
         {error && <span className={styles.error}>{error}</span>}

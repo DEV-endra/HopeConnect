@@ -18,11 +18,22 @@ export default function Login() {
     }
 
     try {
-      // Here you would typically make an API call to authenticate
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigate('/dashboard');
+      const response = await fetch("/api/Login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+  
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem("token", data.token); // Store token for future requests
+        alert("Login successful!");
+        navigate("/dashboard");
+      } else {
+        alert("Login failed: " + data.error);
+      }
     } catch (error) {
-      setError('Invalid email or password');
+      console.error("Error:", error);
     }
   };
 
@@ -52,12 +63,12 @@ export default function Login() {
 
             <form onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
-                <label htmlFor="email" className={styles.label}>Email address</label>
+                <label htmlFor="email" className={styles.label}>Email address or Username</label>
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   className={`${styles.input} ${error ? styles.inputError : ''}`}
-                  placeholder="Enter your email"
+                  placeholder="Enter your email or username"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
