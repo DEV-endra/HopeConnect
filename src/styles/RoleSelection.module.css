@@ -148,16 +148,6 @@
     background: rgba(46, 204, 113, 0.05);
 }
 
-.selectedSeeker {
-    background: rgba(52, 152, 219, 0.1) !important;
-    border-color: #3498db !important;
-}
-
-.selectedHelper {
-    background: rgba(46, 204, 113, 0.1) !important;
-    border-color: #2ecc71 !important;
-}
-
 .message {
     font-size: 0.875rem;
     color: #666666;

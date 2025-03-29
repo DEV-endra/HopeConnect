@@ -5,8 +5,8 @@ import Splash from "./components/Splash.jsx";
 import SignUp from "./components/SignUp.jsx"
 import Login from "./components/LoginPage.jsx"
 import DashBoard from "./components/DashBoard.jsx"
+import HelperDashBoard from "./components/HelperDashboard.jsx"
 import SeekerDashBoard from "./components/SeekerDashboard.jsx"
-
 const routes = [
   {
     path: "/",
@@ -31,6 +31,10 @@ const routes = [
   {
     path: "/dashboard", // New route for the Map Page
     element: <DashBoard/>,
+  },
+  {
+    path: "/HelperDashBoard", // New route for the Map Page
+    element: <HelperDashBoard/>,
   },
   {
     path: "/SeekerDashBoard", // New route for the Map Page

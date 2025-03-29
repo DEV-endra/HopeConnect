@@ -1,6 +1,6 @@
 import Logo from "../assets/Logo.png";
 import { useState, useEffect, useRef } from 'react';
-import styles from '../styles/SeekerDashboard.module.css';
+import styles from '../styles/HelperDashboard.module.css';
 
 const welcomeText = "afgasica fiefua fhdsifh dfsi fs  ndso knvdss dkvnsddvonv snasdnosd vn sacjsdodvj vnsaiodsj nssdv skjdsf vksfovsnanv sfjsjfv  skfnsdjjfovnnvnnnaonc sanfojvonv ksfns ksnck kasnknv kfnsv ksdfakn rafndsv kasfnkvn vksdndsnv vvksnvak";
 var posts=[];
@@ -113,7 +113,6 @@ export default function SeekerDashboard() {
                   <span className={styles.timestamp}>{new Date(post.createdAt).toLocaleString()}</span>
                 </div>
                 
-
                 {/* POST CONTENT */}
                 <div className={styles.postContent}>
                   {expandedPost === post.username ? (
@@ -155,37 +154,36 @@ export default function SeekerDashboard() {
 
             ))}
           </div>
-
-
         </main>
 
         <aside className={styles.sidebar}>
 
           <div className={styles.sidebarCard}>
-            <h3>Talk to AI</h3>
-            <p>Get immediate support from our AI companion</p>
+            <h3>Helper Map</h3>
+            <p>Look for people around you in need</p>
             <button className={styles.sidebarButton}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" />
+            <circle cx="12" cy="11" r="2" />
+            </svg>
+              Locate
+            </button>
+          </div>
+
+          <div className={styles.sidebarCard}>
+            <h3>Requests and chats</h3>
+            <p> Check pending Help Requests and chat</p>
+            <button className={styles.sidebarButton}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
-              Start Chat
+              Help
             </button>
           </div>
 
           <div className={styles.sidebarCard}>
-            <h3>Get Heard</h3>
-            <p>Connect with our AI for voice support and guidance</p>
-            <button className={styles.sidebarButton}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              Start AI Call
-            </button>
-          </div>
-
-          <div className={styles.sidebarCard}>
-            <h3>Connect to Helper</h3>
-            <p>Find and connect with mental health professionals</p>
+            <h3>Notify Admins</h3>
+            <p>Report serious cases for immediate attention</p>
             <button className={styles.sidebarButton}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -193,7 +191,7 @@ export default function SeekerDashboard() {
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
-              Find Helpers
+              Notify Admins
             </button>
           </div>
 

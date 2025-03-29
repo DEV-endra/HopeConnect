@@ -49,7 +49,13 @@ export default function SignUp() {
 
   return (
     <div className={styles.pageContainer}>
+
+       {/* LEFT SECTION */}
+
       <div className={styles.leftSection}>
+
+        {/* NAV BAR */}
+
         <nav className={styles.navbar}>
           <div className={styles.navRight}>
             <a href="/help" className={styles.helpLink}>Help</a>
@@ -60,6 +66,7 @@ export default function SignUp() {
         </nav>
 
         <div className={styles.formContainer}>
+
           <div className={styles.welcomeText}>
             <h2>Welcome to</h2>
             <h1>HopeConnect</h1>
@@ -80,13 +87,17 @@ export default function SignUp() {
 
           {renderStep()}
         </div>
+        
       </div>
       
+      {/*RIGHT SECTION*/}
+
       <div className={styles.rightSection}>
         <div className={styles.logoContainer}>
           <img src={Logo} alt="HopeConnect" className={styles.largeLogo} />
         </div>
       </div>
+
     </div>
   );
 } 

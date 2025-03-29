@@ -4,9 +4,6 @@ import styles from '../../styles/SignUp.module.css';
 export default function Step3({ onBack, updateFormData, formData, navigate }) {
   const [name, setName] = useState(formData.name || '');
   const [error, setError] = useState('');
-  const [username,setUsername]= useState(formData.username || '');
-  const [password, setPassword] = useState(formData.password || '');
-  const [email, setEmail] = useState(formData.email || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,11 +14,12 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
 
     updateFormData({name});
     // Simulate account creation
+
     try {
       const response = await fetch("/api/SignUp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name:name, username:username, email:email, role:"helper", password:password}),
+        body: JSON.stringify({ name:name, username:formData.username, email:formData.email, role:"helper", password:formData.password}),
       });
       const data = await response.json();
       alert(data.message);

@@ -1,0 +1,426 @@
+.dashboard {
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease;
+}
+
+.popupContent {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.5s ease;
+}
+
+.typingContainer {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.typingText {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #1f2937;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: #7c3aed;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    height: 40px;
+    width: auto;
+}
+
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.notificationButton {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #666666;
+    transition: color 0.3s ease;
+}
+
+.notificationButton:hover {
+    color: #00c2a8;
+}
+
+.notificationBadge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 9999px;
+    transform: translate(25%, -25%);
+}
+
+.profileButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #374151;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.profileButton:hover {
+    background-color: #f3f4f6;
+    color: #00c2a8;
+}
+
+.profileButton svg {
+    color: currentColor;
+}
+
+.mainLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.mainContent {
+    flex: 1;
+}
+
+.heroSection {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.postsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.postHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.postAuthor {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.postAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.postAuthor h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.postAuthor span {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.timestamp {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.postContent {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0 0 1rem 0;
+}
+
+.expandedContent {
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+}
+
+.expandedContent p {
+    margin: 0.5rem 0;
+}
+
+.readMoreButton {
+    background: none;
+    border: none;
+    color: #00c2a8;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.readMoreButton:hover {
+    color: #00a391;
+}
+
+.postActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.actionButton:hover {
+    background-color: #f3f4f6;
+    color: #00c2a8;
+}
+
+.sidebar {
+    position: sticky;
+    top: 5rem;
+    height: fit-content;
+}
+
+.sidebarCard {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebarCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebarCard h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.75rem 0;
+}
+
+.sidebarCard p {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.sidebarButton {
+    background: #00c2a8;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sidebarButton:hover {
+    background: #00a391;
+    transform: translateY(-1px);
+}
+
+.sidebarButton:active {
+    transform: translateY(0);
+}
+
+.recommendationsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recommendationsList li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.recommendationsList li:last-child {
+    border-bottom: none;
+}
+
+.recommendationsList li:hover {
+    color: #00c2a8;
+}
+
+.emergencyCard {
+    background: #fee2e2;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.emergencyCard h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #991b1b;
+    margin: 0 0 0.5rem 0;
+}
+
+.emergencyCard p {
+    color: #7f1d1d;
+    margin: 0 0 1rem 0;
+}
+
+.emergencyButton {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.emergencyButton:hover {
+    background: #dc2626;
+}
+
+@media (max-width: 1024px) {
+    .mainLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .profileButton {
+        display: none;
+    }
+
+    .mainLayout {
+        padding: 1rem;
+    }
+
+    .typingText {
+        font-size: 1.1rem;
+    }
+}

@@ -19,6 +19,7 @@ export default function RoleSelection() {
     <div className={styles.background}>
 
         <nav className={styles.navbar}>
+
         <div className={styles.logo}>
         <img src={Logo} alt="HopeConnect" className={styles.logoImage} />
         </div>
@@ -37,32 +38,26 @@ export default function RoleSelection() {
           </a>
           <button onClick={() => navigate('/Login')} className={styles.loginButton}>Login</button>
         </div>
+
       </nav>
 
       <div className={styles.container}>
+
         <h1 className={styles.title}>🌍 HopeConnect</h1>
         <p className={styles.subtitle}>
           AI-Powered Hope, Human-Driven Change
         </p>
 
         <div className={styles.buttonContainer}>
-          <button
-            className={`${styles.button} ${
-              role === "seeker" ? styles.selectedSeeker : ""
-            }`}
-            onClick={() => handleRoleSelection("seeker")}
-          >
+
+          <button className={styles.button} onClick={()=> handleRoleSelection("seeker")}>
             💙 I Need Help
           </button>
 
-          <button
-            className={`${styles.button} ${
-              role === "helper" ? styles.selectedHelper : ""
-            }`}
-            onClick={() => handleRoleSelection("helper")}
-          >
+          <button className={styles.button} onClick={() => handleRoleSelection("helper")}>
             🤝 I Want to Help
           </button>
+
         </div>
 
         {role && role === "seeker" && (
@@ -70,6 +65,7 @@ export default function RoleSelection() {
             We're here for you. You are not alone. ❤️
           </p>
         )}
+
       </div>
     </div>
   );

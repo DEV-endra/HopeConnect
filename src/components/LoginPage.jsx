@@ -23,18 +23,18 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email, password: password }),
       });
-  
       const data = await response.json();
       if (data.token) {
         localStorage.setItem("token", data.token); // Store token for future requests
         alert("Login successful!");
-        navigate("/dashboard");
+        navigate("/SeekerDashboard");
       } else {
         alert("Login failed: " + data.error);
       }
     } catch (error) {
       console.error("Error:", error);
     }
+    
   };
 
   return (
