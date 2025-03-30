@@ -7,6 +7,10 @@ import Login from "./components/LoginPage.jsx"
 import DashBoard from "./components/DashBoard.jsx"
 import HelperDashBoard from "./components/HelperDashboard.jsx"
 import SeekerDashBoard from "./components/SeekerDashboard.jsx"
+const isAuthenticated = () => {
+  // Check if the user is authenticated (e.g., token exists, session active)
+  return localStorage.getItem('token') !== null;
+ };
 const routes = [
   {
     path: "/",
@@ -34,11 +38,11 @@ const routes = [
   },
   {
     path: "/HelperDashBoard", // New route for the Map Page
-    element: <HelperDashBoard/>,
+    element: isAuthenticated() ? <HelperDashBoard /> : <Login />,
   },
   {
     path: "/SeekerDashBoard", // New route for the Map Page
-    element: <SeekerDashBoard/>,
+    element: isAuthenticated() ? <SeekerDashBoard /> : <Login />,
   },
   {
     path: "/map", // New route for the Map Page

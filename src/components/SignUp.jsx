@@ -8,6 +8,7 @@ import Logo from "../assets/Logo2.png"
 
 export default function SignUp() {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -15,9 +16,7 @@ export default function SignUp() {
     name: '',
     role:''
     });
-
-  const navigate = useNavigate();
-
+  formData.role=localStorage.getItem('role');
   const handleNextStep = () => {
     if (currentStep < 3) {
       setCurrentStep(prev => prev + 1);

@@ -1,15 +1,19 @@
 import Logo from "../assets/Logo.png";
 import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/HelperDashboard.module.css';
+import profilePic from "../assets/Logo.png";
+import Popup from 'reactjs-popup';
 
-const welcomeText = "afgasica fiefua fhdsifh dfsi fs  ndso knvdss dkvnsddvonv snasdnosd vn sacjsdodvj vnsaiodsj nssdv skjdsf vksfovsnanv sfjsjfv  skfnsdjjfovnnvnnnaonc sanfojvonv ksfns ksnck kasnknv kfnsv ksdfakn rafndsv kasfnkvn vksdndsnv vvksnvak";
-var posts=[];
+const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
+var posts = [];
 
 export default function SeekerDashboard() {
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(50);
   const [expandedPost, setExpandedPost] = useState(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
 
   useEffect(() => {
     let timeout;
@@ -35,25 +39,26 @@ export default function SeekerDashboard() {
 
   //// IMPORTING POSTS
   useEffect(() => {
-    async function fun(){
-    const token=localStorage.getItem("token");
-  try {
-    const response = await fetch("/api/users/posts", {
-      method: "GET",
-      headers: {
-        "Authorization":`Bearer ${token}` , 
-        "Content-Type": "application/json" },
-    });
-    posts = await response.json();
-    // console.log(posts2);
-  } catch (error) {
-    console.error("Error:", error);
-  }
+    async function fun() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch("/api/users/posts", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+        posts = await response.json();
+        // console.log(posts2);
+      } catch (error) {
+        console.error("Error:", error);
+      }
 
     }
     fun();
-  },[]);
-  
+  }, []);
+
   const togglePostExpansion = (postId) => {
     setExpandedPost(expandedPost === postId ? null : postId);
   };
@@ -93,14 +98,45 @@ export default function SeekerDashboard() {
                 {currentText}
                 <span className={styles.cursor}>|</span>
               </p>
-            </div> 
+            </div>
           </div>
 
+          {/* POST OPTION */}
+          <div className={styles.startPost}>
+            <img
+              src={profilePic}
+              alt="User Avatar"
+              className={styles.avatar}
+            />
+            <button className={styles.postInput} onClick={() => setPopupOpen(true)}>
+              Start a Post...
+            </button>
+          </div>
+
+          {/* POST POPUP */}
+
+          <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal>
+            <div className={styles.overlay}>
+              <        div className={styles.popupContent}>
+                <button className={styles.closeButton} onClick={() => setPopupOpen(false)}>
+                  <span style={{ color: 'black' }}>✖</span>
+                </button>
+                <textarea className={styles.textInput} placeholder="What's on your mind?" />
+                <label className={styles.attachButton}>
+                  📎 Attach
+                  <input type="file" accept="image/*,video/*" />
+                </label>
+                <button className={styles.sendButton}>🚀 Post</button>
+              </div>
+            </div>
+          </Popup>
+
+          {/* POST SECTION */}
           <div className={styles.postsContainer}>
             {posts.map(post => (
 
               <div key={post.username} className={styles.post}>
-                
+
                 {/* POST HEADER */}
                 <div className={styles.postHeader}>
                   <div className={styles.postusername}>
@@ -112,7 +148,7 @@ export default function SeekerDashboard() {
                   </div>
                   <span className={styles.timestamp}>{new Date(post.createdAt).toLocaleString()}</span>
                 </div>
-                
+
                 {/* POST CONTENT */}
                 <div className={styles.postContent}>
                   {expandedPost === post.username ? (
@@ -124,7 +160,7 @@ export default function SeekerDashboard() {
                   ) : (
                     <p>{post.content}</p>
                   )}
-                  <button 
+                  <button
                     className={styles.readMoreButton}
                     onClick={() => togglePostExpansion(post.username)}
                   >
@@ -132,7 +168,7 @@ export default function SeekerDashboard() {
                   </button>
                 </div>
 
-                
+
                 {/* POST ACTIONS */}
                 <div className={styles.postActions}>
                   <button className={styles.actionButton}>
@@ -162,10 +198,10 @@ export default function SeekerDashboard() {
             <h3>Helper Map</h3>
             <p>Look for people around you in need</p>
             <button className={styles.sidebarButton}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" />
-            <circle cx="12" cy="11" r="2" />
-            </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" />
+                <circle cx="12" cy="11" r="2" />
+              </svg>
               Locate
             </button>
           </div>
@@ -174,7 +210,7 @@ export default function SeekerDashboard() {
             <h3>Requests and chats</h3>
             <p> Check pending Help Requests and chat</p>
             <button className={styles.sidebarButton}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
               Help

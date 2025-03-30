@@ -43,7 +43,7 @@ export default function Login() {
         <nav className={styles.navbar}>
           <div className={styles.navRight}>
             <a href="/help" className={styles.helpLink}>Help</a>
-            <button onClick={() => navigate('/signup')} className={styles.signUpButton}>
+            <button onClick={() => navigate('/RoleSelection')} className={styles.signUpButton}>
               Sign up
             </button>
           </div>
@@ -116,7 +116,7 @@ export default function Login() {
                 <button 
                   type="button" 
                   className={styles.textButton}
-                  onClick={() => navigate('/signup')}
+                  onClick={() => navigate('/RoleSelection')}
                 >
                   Sign up
                 </button>

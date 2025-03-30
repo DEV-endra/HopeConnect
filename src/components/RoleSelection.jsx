@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importing navigation hook
 import styles from "../styles/RoleSelection.module.css"; // Importing CSS module
 import Logo from "../assets/Logo.png";
+import SignUp from './SignUp';
 
 export default function RoleSelection() {
   const [role, setRole] = useState(null);
@@ -9,10 +10,8 @@ export default function RoleSelection() {
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
-
-    if (selectedRole === "helper") {
-      navigate("/map");              // Redirect to map page when selecting "I Want to Help"
-    }
+    localStorage.setItem("role",selectedRole);
+    navigate('/SignUp');
   };
 
   return (

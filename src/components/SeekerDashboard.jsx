@@ -1,8 +1,10 @@
 import Logo from "../assets/Logo.png";
 import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/SeekerDashboard.module.css';
+import profilePic from "../assets/Logo.png";
+import Popup from 'reactjs-popup';
 
-const welcomeText = "afgasica fiefua fhdsifh dfsi fs  ndso knvdss dkvnsddvonv snasdnosd vn sacjsdodvj vnsaiodsj nssdv skjdsf vksfovsnanv sfjsjfv  skfnsdjjfovnnvnnnaonc sanfojvonv ksfns ksnck kasnknv kfnsv ksdfakn rafndsv kasfnkvn vksdndsnv vvksnvak";
+const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 var posts=[];
 
 export default function SeekerDashboard() {
@@ -10,6 +12,7 @@ export default function SeekerDashboard() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(50);
   const [expandedPost, setExpandedPost] = useState(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
     let timeout;
@@ -59,6 +62,8 @@ export default function SeekerDashboard() {
   };
 
   return (
+
+
     <div className={styles.dashboard}>
 
       <nav className={styles.navbar}>
@@ -95,7 +100,38 @@ export default function SeekerDashboard() {
               </p>
             </div> 
           </div>
+          
+          {/* POST OPTION */}
+          <div className={styles.startPost}>
+            <img
+                      src={profilePic}
+                      alt="User Avatar"
+                      className={styles.avatar}
+            />
+            <button className={styles.postInput} onClick={() => setPopupOpen(true)}> 
+              Start a Post...
+            </button>
+          </div>
+          
+          {/* POST POPUP */}
 
+          <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal>
+          <div className={styles.overlay}>
+  <        div className={styles.popupContent}>
+          <button className={styles.closeButton} onClick={() => setPopupOpen(false)}>
+          <span style={{ color: 'black' }}>✖</span>
+          </button>
+          <textarea className={styles.textInput} placeholder="What's on your mind?" />
+          <label className={styles.attachButton}>
+          📎 Attach
+          <input type="file" accept="image/*,video/*" />
+          </label>
+          <button className={styles.sendButton}>🚀 Post</button>
+          </div>
+          </div>
+          </Popup>
+ 
+          {/* POST SECTION */}
           <div className={styles.postsContainer}>
             {posts.map(post => (
 
