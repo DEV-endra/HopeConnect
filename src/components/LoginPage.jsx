@@ -26,15 +26,24 @@ export default function Login() {
       const data = await response.json();
       if (data.token) {
         localStorage.setItem("token", data.token); // Store token for future requests
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("username", data.username);
+
         alert("Login successful!");
-        navigate("/SeekerDashboard");
+        const role = (data.role);
+        if (role == "seeker")
+          navigate("/SeekerDashboard");
+        else {
+          navigate("/HelperDashboard");
+        }
+
       } else {
         alert("Login failed: " + data.error);
       }
     } catch (error) {
       console.error("Error:", error);
     }
-    
+
   };
 
   return (
@@ -113,8 +122,8 @@ export default function Login() {
 
               <div className={styles.signupPrompt}>
                 Don't have an account?{' '}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className={styles.textButton}
                   onClick={() => navigate('/RoleSelection')}
                 >
@@ -125,7 +134,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      
+
       <div className={styles.rightSection}>
         <div className={styles.logoContainer}>
           <img src={Logo} alt="HopeConnect" className={styles.largeLogo} />

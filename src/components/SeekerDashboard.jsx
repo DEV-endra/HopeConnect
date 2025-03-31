@@ -5,7 +5,6 @@ import profilePic from "../assets/Logo.png";
 import Popup from 'reactjs-popup';
 
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
-var posts=[];
 
 export default function SeekerDashboard() {
   const [currentText, setCurrentText] = useState("");
@@ -13,6 +12,8 @@ export default function SeekerDashboard() {
   const [typingSpeed, setTypingSpeed] = useState(50);
   const [expandedPost, setExpandedPost] = useState(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     let timeout;
@@ -38,31 +39,61 @@ export default function SeekerDashboard() {
 
   //// IMPORTING POSTS
   useEffect(() => {
-    async function fun(){
-    const token=localStorage.getItem("token");
-  try {
-    const response = await fetch("/api/users/posts", {
-      method: "GET",
-      headers: {
-        "Authorization":`Bearer ${token}` , 
-        "Content-Type": "application/json" },
-    });
-    posts = await response.json();
-    // console.log(posts2);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-
+    async function fun() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch("/api/users/posts", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+        const res = await response.json();
+        // console.log(res);
+        setPosts(res);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
     fun();
-  },[]);
-  
-  const togglePostExpansion = (postId) => {
-    setExpandedPost(expandedPost === postId ? null : postId);
+  }, []);
+
+  const togglePostExpansion = (username) => {
+    setExpandedPost(expandedPost === username ? null : username);
+    console.log(username);
+  };
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const posted = async () => {
+
+    setPopupOpen(false)   // CLOSING THE POST POPUP
+    const role = localStorage.getItem("role");
+    const username = localStorage.getItem("username");
+    const token = localStorage.getItem("token");
+    console.log(role);
+    console.log(username);
+    const content = text.substring(0, 150);
+    try {
+      const response = await fetch("/api/users/posted", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title: "HopeConnect", role: role, username: username, likes: 0, comments: 0, fullcontent: text, content: content }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    // console.log(text);
+
   };
 
   return (
-
 
     <div className={styles.dashboard}>
 
@@ -98,45 +129,47 @@ export default function SeekerDashboard() {
                 {currentText}
                 <span className={styles.cursor}>|</span>
               </p>
-            </div> 
+            </div>
           </div>
-          
+
           {/* POST OPTION */}
           <div className={styles.startPost}>
             <img
-                      src={profilePic}
-                      alt="User Avatar"
-                      className={styles.avatar}
+              src={profilePic}
+              alt="User Avatar"
+              className={styles.avatar}
             />
-            <button className={styles.postInput} onClick={() => setPopupOpen(true)}> 
+            <button className={styles.postInput} onClick={() => setPopupOpen(true)}>
               Start a Post...
             </button>
           </div>
-          
+
           {/* POST POPUP */}
 
           <Popup open={isPopupOpen} onClose={() => setPopupOpen(false)} modal>
-          <div className={styles.overlay}>
-  <        div className={styles.popupContent}>
-          <button className={styles.closeButton} onClick={() => setPopupOpen(false)}>
-          <span style={{ color: 'black' }}>✖</span>
-          </button>
-          <textarea className={styles.textInput} placeholder="What's on your mind?" />
-          <label className={styles.attachButton}>
-          📎 Attach
-          <input type="file" accept="image/*,video/*" />
-          </label>
-          <button className={styles.sendButton}>🚀 Post</button>
-          </div>
-          </div>
+            <div className={styles.overlay}>
+              <div className={styles.popupContent}>
+                <button className={styles.closeButton} onClick={() => setPopupOpen(false)}>
+                  <span style={{ color: 'black' }}>✖</span>
+                </button>
+                <textarea className={styles.textInput} placeholder="What's on your mind?" value={text} onChange={handleTextChange} />
+                <label className={styles.attachButton}>
+                  📎 Attach
+                  <input type="file" accept="image/*,video/*" />
+                </label>
+                <button className={styles.sendButton} onClick={() => posted()}>
+                  🚀 Post
+                </button>
+              </div>
+            </div>
           </Popup>
- 
+
           {/* POST SECTION */}
           <div className={styles.postsContainer}>
             {posts.map(post => (
 
               <div key={post.username} className={styles.post}>
-                
+
                 {/* POST HEADER */}
                 <div className={styles.postHeader}>
                   <div className={styles.postusername}>
@@ -148,7 +181,7 @@ export default function SeekerDashboard() {
                   </div>
                   <span className={styles.timestamp}>{new Date(post.createdAt).toLocaleString()}</span>
                 </div>
-                
+
 
                 {/* POST CONTENT */}
                 <div className={styles.postContent}>
@@ -161,7 +194,7 @@ export default function SeekerDashboard() {
                   ) : (
                     <p>{post.content}</p>
                   )}
-                  <button 
+                  <button
                     className={styles.readMoreButton}
                     onClick={() => togglePostExpansion(post.username)}
                   >
@@ -169,7 +202,7 @@ export default function SeekerDashboard() {
                   </button>
                 </div>
 
-                
+
                 {/* POST ACTIONS */}
                 <div className={styles.postActions}>
                   <button className={styles.actionButton}>

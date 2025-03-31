@@ -12,18 +12,26 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
       return;
     }
 
-    updateFormData({name});
+    updateFormData({ name });
     // Simulate account creation
 
     try {
       const response = await fetch("/api/SignUp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name:name, username:formData.username, email:formData.email, role:"helper", password:formData.password}),
+        body: JSON.stringify({ name: name, username: formData.username, email: formData.email, role: formData.role, password: formData.password }),
       });
       const data = await response.json();
-      alert(data.message);
-      navigate('/dashboard');
+      localStorage.setItem("token", data.token); // Store token for future requests
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("username", data.username);
+
+      if (formData.role == "seeker")
+        navigate("/SeekerDashboard");
+      else {
+        navigate("/HelperDashboard");
+      }
+
     } catch (error) {
       console.log(error);
       setError('Failed to create account. Please try again.');
