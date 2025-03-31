@@ -11,5 +11,8 @@ export default defineConfig(({ mode }) => {
     define: {
       "process.env": env, // Ensure env variables are injected
     },
+    server: {
+      allowedHosts: ["hopeconnect.onrender.com", "hopeconnect_backend.onrender.com"], // Allow the backend host
+    },
   };
 });
