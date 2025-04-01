@@ -10,25 +10,25 @@ export default function RoleSelection() {
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
-    localStorage.setItem("role",selectedRole);
+    localStorage.setItem("role", selectedRole);
     navigate('/SignUp');
   };
 
   return (
     <div className={styles.background}>
 
-        <nav className={styles.navbar}>
+      <nav className={styles.navbar}>
 
         <div className={styles.logo}>
-        <img src={Logo} alt="HopeConnect" className={styles.logoImage} />
+          <img src={Logo} alt="HopeConnect" className={styles.logoImage} />
         </div>
         <div className={styles.navRight}>
           <a href="/author" className={styles.navLink}>Author</a>
           <a href="/blogs" className={styles.navLink}>Blogs</a>
-          <a 
-            href="https://github.com/DEV-endra" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://github.com/DEV-endra"
+            target="_blank"
+            rel="noopener noreferrer"
             className={styles.navLink}
           >
             <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
@@ -49,7 +49,7 @@ export default function RoleSelection() {
 
         <div className={styles.buttonContainer}>
 
-          <button className={styles.button} onClick={()=> handleRoleSelection("seeker")}>
+          <button className={styles.button} onClick={() => handleRoleSelection("helpee")}>
             💙 I Need Help
           </button>
 
@@ -59,7 +59,7 @@ export default function RoleSelection() {
 
         </div>
 
-        {role && role === "seeker" && (
+        {role && role === "helpee" && (
           <p className={styles.message}>
             We're here for you. You are not alone. ❤️
           </p>

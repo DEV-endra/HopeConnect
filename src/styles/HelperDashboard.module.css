@@ -95,17 +95,20 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    width: 100%;
 }
 
 .logo {
     height: 40px;
     width: auto;
+    flex-shrink: 0;
 }
 
 .navRight {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    margin-left: auto;
 }
 
 .notificationButton {
@@ -116,6 +119,9 @@
     padding: 0.5rem;
     color: #666666;
     transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .notificationButton:hover {
@@ -566,11 +572,40 @@
 
 @media (max-width: 768px) {
     .navbar {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .logo {
+        height: 32px;
+    }
+
+    .navRight {
+        gap: 1rem;
+        margin-left: 3rem;
+        /* Space for hamburger menu */
     }
 
     .profileButton {
+        padding: 0.5rem;
+    }
+
+    .profileButton span {
         display: none;
+        /* Hide text on mobile */
+    }
+
+    .profileButton svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .notificationButton {
+        padding: 0.4rem;
+    }
+
+    .notificationButton svg {
+        width: 24px;
+        height: 24px;
     }
 
     .mainLayout {
@@ -579,5 +614,30 @@
 
     .typingText {
         font-size: 1.1rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .logo {
+        height: 28px;
+    }
+
+    .navRight {
+        gap: 0.75rem;
+        margin-left: 2.5rem;
+        /* Reduced space for hamburger menu */
+    }
+
+    .profileButton {
+        padding: 0.4rem;
+    }
+
+    .notificationButton {
+        padding: 0.4rem;
     }
 }

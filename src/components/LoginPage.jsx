@@ -28,10 +28,11 @@ export default function Login() {
         localStorage.setItem("token", data.token); // Store token for future requests
         localStorage.setItem("role", data.role);
         localStorage.setItem("username", data.username);
+        localStorage.setItem("name", data.name);
 
-        alert("Login successful!");
+        alert("Login successfull!");
         const role = (data.role);
-        if (role == "seeker")
+        if (role == "helpee")
           navigate("/SeekerDashboard");
         else {
           navigate("/HelperDashboard");

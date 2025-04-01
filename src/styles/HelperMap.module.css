@@ -1,7 +1,11 @@
 .worldMapContainer {
-    position: relative;
-    width: 100%;
-    height: 600px;
+    position: fixed;
+    /* Keeps the map fixed on the screen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 90vh;
     overflow: hidden;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -11,20 +15,23 @@
 .worldMap {
     width: 100%;
     height: 100%;
-    transform-origin: 0 0;
-    transition: transform 0.1s ease-out;
+    transform-origin: center;
+    /* Keeps zoom centered */
+    transition: transform 0.2s ease-out;
 }
 
 .country {
     fill: #4CAF50;
     stroke: #fff;
     stroke-width: 0.5;
-    transition: fill 0.3s;
+    transition: fill 0.3s, transform 0.2s ease-out;
 }
 
 .country:hover {
     fill: #2E7D32;
     cursor: pointer;
+    transform: scale(1.05);
+    /* Slight hover effect */
 }
 
 .controls {
@@ -32,11 +39,12 @@
     top: 10px;
     right: 10px;
     z-index: 10;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 8px;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .controls button {
@@ -48,6 +56,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .controls button:hover {
@@ -63,4 +72,5 @@
     font-size: 14px;
     pointer-events: none;
     z-index: 100;
+    transition: opacity 0.2s ease-in-out;
 }
