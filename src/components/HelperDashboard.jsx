@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/HelperDashboard.module.css';
 import profilePic from "../assets/Logo.png";
 import Popup from 'reactjs-popup';
+import Sidebar from "./Sidebar.jsx";
 
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 
@@ -14,6 +15,7 @@ export default function SeekerDashboard() {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [text, setText] = useState('');
   const [posts, setPosts] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     let timeout;
@@ -107,13 +109,14 @@ export default function SeekerDashboard() {
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
           </button>
-          <button className={styles.profileButton}>
+          <button className={styles.profileButton} onClick={() => (setIsSidebarOpen(!isSidebarOpen))}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
             Profile
           </button>
+          <Sidebar isopen={isSidebarOpen} onCloseSidebar={() => setIsSidebarOpen(false)} />
         </div>
       </nav>
 
@@ -172,7 +175,7 @@ export default function SeekerDashboard() {
                     <img src="/avatar.png" alt={post.username} className={styles.postAvatar} />
                     <div>
                       <h3>{post.username}</h3>
-                      <span>{post.role}</span>
+                      {/* <span>{post.role}</span> */}
                     </div>
                   </div>
                   <span className={styles.timestamp}>{new Date(post.createdAt).toLocaleString()}</span>

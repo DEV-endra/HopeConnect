@@ -7,10 +7,11 @@ import Login from "./components/LoginPage.jsx"
 import DashBoard from "./components/DashBoard.jsx"
 import HelperDashBoard from "./components/HelperDashboard.jsx"
 import SeekerDashBoard from "./components/SeekerDashboard.jsx"
+import MyComponent from "./components/Connect.jsx"
 const isAuthenticated = () => {
   // Check if the user is authenticated (e.g., token exists, session active)
   return localStorage.getItem('token') !== null;
- };
+};
 const routes = [
   {
     path: "/",
@@ -26,15 +27,15 @@ const routes = [
   },
   {
     path: "/SignUp", // New route for the Map Page
-    element: <SignUp/>,
+    element: <SignUp />,
   },
   {
     path: "/Login", // New route for the Map Page
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/dashboard", // New route for the Map Page
-    element: <DashBoard/>,
+    element: <DashBoard />,
   },
   {
     path: "/HelperDashBoard", // New route for the Map Page
@@ -47,7 +48,11 @@ const routes = [
   {
     path: "/map", // New route for the Map Page
     element: <HelperMap />,
-  }
+  },
+  {
+    path: "/connect",
+    element: <MyComponent />
+  },
 ];
 
 export default routes;

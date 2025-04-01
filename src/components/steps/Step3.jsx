@@ -25,8 +25,9 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
       localStorage.setItem("token", data.token); // Store token for future requests
       localStorage.setItem("role", data.role);
       localStorage.setItem("username", data.username);
+      localStorage.setItem("name", data.name);
 
-      if (formData.role == "seeker")
+      if (formData.role == "helpee")
         navigate("/SeekerDashboard");
       else {
         navigate("/HelperDashboard");
