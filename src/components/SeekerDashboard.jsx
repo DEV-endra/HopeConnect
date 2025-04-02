@@ -4,6 +4,7 @@ import styles from '../styles/SeekerDashboard.module.css';
 import profilePic from "../assets/Logo.png";
 import Popup from 'reactjs-popup';
 import Sidebar from "./Sidebar.jsx";
+import { Navigate, useNavigate } from "react-router-dom";
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 
 export default function SeekerDashboard() {
@@ -15,7 +16,7 @@ export default function SeekerDashboard() {
   const [text, setText] = useState('');
   const [posts, setPosts] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     let timeout;
     if (isDeleting) {
@@ -168,7 +169,7 @@ export default function SeekerDashboard() {
 
           {/* POST SECTION */}
           <div className={styles.postsContainer}>
-            {posts.map(post => (
+            {Array.isArray(posts) && posts.map(post => (
 
               <div key={post.username} className={styles.post}>
 
@@ -257,7 +258,7 @@ export default function SeekerDashboard() {
           <div className={styles.sidebarCard}>
             <h3>Connect to Helper</h3>
             <p>Find and connect with mental health professionals</p>
-            <button className={styles.sidebarButton}>
+            <button className={styles.sidebarButton} onClick={() => navigate('/connect')}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
