@@ -7,7 +7,8 @@ import Login from "./components/LoginPage.jsx"
 import DashBoard from "./components/DashBoard.jsx"
 import HelperDashBoard from "./components/HelperDashboard.jsx"
 import SeekerDashBoard from "./components/SeekerDashboard.jsx"
-import MyComponent from "./components/Connect.jsx"
+import Connect from "./components/Connect.jsx"
+
 const isAuthenticated = () => {
   // Check if the user is authenticated (e.g., token exists, session active)
   return localStorage.getItem('token') !== null;
@@ -51,7 +52,7 @@ const routes = [
   },
   {
     path: "/connect",
-    element: <MyComponent />
+    element: <Connect />
   },
 ];
 

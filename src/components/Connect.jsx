@@ -8,7 +8,68 @@ export default function Connect() {
     const [tab, settab] = useState('Peoples');
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
+    const [chat, setchat] = useState(false);
+    const [conv_id, setconv_id] = useState(1);
+    const [messageInput, setMessageInput] = useState('');
+    const [conversations, setconversations] = useState([
+        {
+            id: 1,
+            user2_id: 12,
+            user1_id: 14,
+            another_user: "dev",
+            last_text: "Hey Welcome connect",
+        },
+        {
+            id: 2,
+            user2_id: 12,
+            user1_id: 14,
+            another_user: "dev3",
+            last_text: "Hello world",
+        }
 
+    ]);
+    const [messages, setmessages] = useState([
+        {
+            id: 1,
+            senderid: 1,
+            username: "dev2005",
+            time: '2:00 PM',
+            text: "Hey Welnect",
+            avatar: "sc",
+        },
+        {
+            id: 1,
+            senderid: 2,
+            username: "dev",
+            time: '3:10 PM',
+            text: "Hey Welcome to Hopeconnect",
+            avatar: "sc",
+        },
+        {
+            id: 1,
+            senderid: 1,
+            username: "dev2005",
+            time: '3:30 PM',
+            text: "Hey Welconnect",
+            avatar: "sc",
+        },
+        {
+            id: 1,
+            senderid: 2,
+            username: "dev",
+            time: '4:00 PM',
+            text: "Hey Welcome connect",
+            avatar: "sc",
+        },
+        {
+            id: 2,
+            senderid: 1,
+            username: "dev",
+            time: '2:00 PM',
+            text: "Hey Welcome to Hopeconnect",
+            avatar: "sc",
+        },
+    ]);
     const [peoples, setpeoples] = useState([
         {
             id: 1,
@@ -47,35 +108,31 @@ export default function Connect() {
             description: 'Specialized in adolescent counseling and family therapy. Available for group sessions.'
         }
     ]);
-    const [sessions, setsessions] = useState([
-        {
-            id: 1,
-            title: 'Stress Management Workshop',
-            host: 'Dr. Sarah Wilson',
-            participants: 12,
-            time: '2:00 PM',
-            duration: '1 hour'
-        },
-        {
-            id: 2,
-            title: 'Peer Support Group',
-            host: 'Mike Johnson',
-            participants: 8,
-            time: '3:30 PM',
-            duration: '45 mins'
-        },
-    ]);
 
     const filteredPeoples = peoples.filter(person =>
         (person.name?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "") ||
         (person.username?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
     );
 
-    const filteredSessions = sessions.filter(session =>
-        (session.title?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "") ||
-        (session.host?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
+    const filteredconversations = conversations.filter(session =>
+        (session.another_user?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "") ||
+        (session.last_text?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
     );
 
+    const filteredMessages = messages
+        .filter(msg => msg.id === conv_id) // Filter messages with id = 1
+        .sort((a, b) => new Date(`1970/01/01 ${a.time}`) - new Date(`1970/01/01 ${b.time}`)); // Sort by time
+
+    const openchat = (id) => {
+        setchat(true);
+        setconv_id(id);
+    };
+
+    const handleSendMessage = () => {
+
+    }
+
+    const current_user = localStorage.getItem('username');
 
     return (
 
@@ -92,7 +149,7 @@ export default function Connect() {
                 <div>
                     <input
                         type="text"
-                        placeholder="Search people or sessions..."
+                        placeholder="Search people or messages..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className={styles.search}
@@ -105,8 +162,8 @@ export default function Connect() {
                 <button onClick={() => settab('Peoples')}>
                     People
                 </button>
-                <button onClick={() => settab('Sessions')}>
-                    Sessions
+                <button onClick={() => settab('Messages')}>
+                    Messages
                 </button>
             </div>
 
@@ -152,37 +209,69 @@ export default function Connect() {
                         </div>
                     ) : (
 
-                        <div className={styles.sessions}>
+                        (chat === false) ? (<div className={styles.conversations}>
 
-                            {filteredSessions.map(session => (
+                            {filteredconversations.map(conversation => (
 
-                                <div className={styles.body2}>
-                                    <div key={session.id} className={styles.sessionCard}>
-                                        <div className={styles.sessionInfo}>
-                                            <div className={styles.sessionHeader}>
-                                                <Video className={styles.videoIcon} size={20} />
-                                                <h3>{session.title}</h3>
+                                <button className={styles.body2} onClick={() => openchat(conversation.id)}>
+                                    <div key={conversation.id} className={styles.conversationCard}>
+                                        <div className={styles.conversationInfo}>
+                                            <div className={styles.conversationHeader}>
+                                                <div className={styles.avatarcontainer}>
+                                                    <img
+                                                        src={conversation.avatar}
+                                                        alt={conversation.another_user}
+                                                        className={styles.avatar}
+                                                    />
+                                                </div>
+                                                <h3>{conversation.another_user}</h3>
                                             </div>
-                                            <p className={styles.host}>Hosted by {session.host}</p>
-                                            <div className={styles.sessionDetails}>
+                                            <div className={styles.conversationDetails}>
                                                 <span className={styles.participants}>
-                                                    {session.participants} participants
-                                                </span>
-                                                <span className={styles.time}>
-                                                    <Clock size={16} />
-                                                    {session.time} ({session.duration})
+                                                    {conversation.last_text}
                                                 </span>
                                             </div>
                                         </div>
-                                        <button className={styles.joinButton}>
-                                            Join
-                                        </button>
                                     </div>
 
-                                </div>
+                                </button>
                             ))}
 
-                        </div>
+                        </div>) :
+                            (
+                                <div className={styles.chatContainer}>
+                                    <button className={styles.backButton} onClick={() => setchat(false)}>
+                                        <ArrowLeft size={20} />
+                                    </button>
+
+                                    {/* displaying older chats */}
+                                    <div className={styles.messagesList}>
+                                        {filteredMessages.map(message => (
+                                            <div
+                                                key={message.id}
+                                                className={`${styles.message} ${message.username === current_user ? styles.sentMessage : styles.receivedMessage}`}>
+                                                <div className={styles.messageContent}>
+                                                    <p>{message.text}</p>
+                                                    <span className={styles.messageTime}>{message.time}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* FOR MESSAGING */}
+                                    <form className={styles.messageInput} onSubmit={handleSendMessage}>
+                                        <input
+                                            type="text"
+                                            placeholder="Type a message..."
+                                            value={messageInput}
+                                            onChange={(e) => setMessageInput(e.target.value)}
+                                        />
+                                        <button type="submit">
+                                            <Send size={20} />
+                                        </button>
+                                    </form>
+                                </div>
+                            )
                     )
                 }
 

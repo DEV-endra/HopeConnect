@@ -4,6 +4,7 @@ import styles from '../styles/HelperDashboard.module.css';
 import profilePic from "../assets/Logo.png";
 import Popup from 'reactjs-popup';
 import Sidebar from "./Sidebar.jsx";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 
@@ -16,6 +17,7 @@ export default function SeekerDashboard() {
   const [text, setText] = useState('');
   const [posts, setPosts] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let timeout;
@@ -241,7 +243,7 @@ export default function SeekerDashboard() {
           <div className={styles.sidebarCard}>
             <h3>Requests and chats</h3>
             <p> Check pending Help Requests and chat</p>
-            <button className={styles.sidebarButton}>
+            <button className={styles.sidebarButton} onClick={() => navigate('/connect')}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
