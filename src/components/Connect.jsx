@@ -18,6 +18,7 @@ export default function Connect() {
     const [messageInput, setMessageInput] = useState('');
     const [conversations, setconversations] = useState([]);
     const [messages, setmessages] = useState([]);
+    const [newconv, setnewconv] = useState({});
     const [peoples, setpeoples] = useState([
         {
             id: 1,
@@ -55,6 +56,7 @@ export default function Connect() {
 
     const username = localStorage.getItem('username');
     const Id = localStorage.getItem('Id');
+
     //// IMPORTING CHATS
     useEffect(() => {
         async function fun() {
@@ -67,13 +69,15 @@ export default function Connect() {
                         "Content-Type": "application/json"
                     },
                 });
-                const { updatedConversations, updatedMessages } = await response.json();
+                const { updatedConversations, updatedMessages, Peoples } = await response.json();
                 setmessages(updatedMessages);
                 setconversations(updatedConversations);
+                setpeoples(Peoples);
             } catch (error) {
                 console.error("Error:", error);
             }
         }
+
         fun();
     }, []);
 
@@ -130,6 +134,7 @@ export default function Connect() {
                 setmessages(prev => [...prev, newReceivedMessage]);
             }
             else {
+
                 console.log("didn't find conv id");
             }
 
@@ -175,6 +180,48 @@ export default function Connect() {
         }
 
     };
+
+    const newConversations = (peopleId) => {
+
+        const check = conversations.some(conv =>
+            (conv.user1_id === Id && conv.user2_id === peopleId) ||
+            (conv.user2_id === Id && conv.user1_id === peopleId)
+        );
+
+        // console.log(check);
+        if (check === false) {
+            async function fun() {
+                const token = localStorage.getItem("token");
+                try {
+                    const response = await fetch(`/api/users/newconversation?peopleId=${encodeURIComponent(peopleId)}`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                    });
+                    const newConversation = await response.json();
+                    setconversations((convs) => [...convs, newConversation]);
+                    settab('Messages');
+                    setchat(true);
+                    setconv_id(newConversation.id);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            fun();
+        }
+        else {
+            const existingConv = conversations.find(conv =>
+                (conv.user1_id === Id && conv.user2_id === peopleId) ||
+                (conv.user2_id === Id && conv.user1_id === peopleId)
+            );
+            settab('Messages');
+            setchat(true);
+            setconv_id(existingConv.id);
+        }
+        // console.log(conversations);
+    }
 
     const current_user = localStorage.getItem('username');
     return (
@@ -242,7 +289,7 @@ export default function Connect() {
                                         </div>
                                     </div>
 
-                                    <button className={styles.messageButton}>
+                                    <button className={styles.messageButton} onClick={() => newConversations(people.id)}>
                                         <MessageCircle size={20} />
                                     </button>
 
