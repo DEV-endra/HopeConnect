@@ -2,82 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Search, MessageCircle, Video, Clock, Send } from 'lucide-react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import styles from '../styles/connect.module.css';
+import { io } from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
+import socket from '../socket';
 
 export default function Connect() {
 
+    const token = localStorage.getItem('token');
+    const inputRef = useRef(null);
     const [tab, settab] = useState('Peoples');
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [chat, setchat] = useState(false);
     const [conv_id, setconv_id] = useState(1);
     const [messageInput, setMessageInput] = useState('');
-    const [conversations, setconversations] = useState([
-        {
-            id: 1,
-            user2_id: 12,
-            user1_id: 14,
-            another_user: "dev",
-            last_text: "Hey Welcome connect",
-        },
-        {
-            id: 2,
-            user2_id: 12,
-            user1_id: 14,
-            another_user: "dev3",
-            last_text: "Hello world",
-        }
-
-    ]);
-    const [messages, setmessages] = useState([
-        {
-            id: 1,
-            senderid: 1,
-            username: "dev2005",
-            time: '2:00 PM',
-            text: "Hey Welnect",
-            avatar: "sc",
-        },
-        {
-            id: 1,
-            senderid: 2,
-            username: "dev",
-            time: '3:10 PM',
-            text: "Hey Welcome to Hopeconnect",
-            avatar: "sc",
-        },
-        {
-            id: 1,
-            senderid: 1,
-            username: "dev2005",
-            time: '3:30 PM',
-            text: "Hey Welconnect",
-            avatar: "sc",
-        },
-        {
-            id: 1,
-            senderid: 2,
-            username: "dev",
-            time: '4:00 PM',
-            text: "Hey Welcome connect",
-            avatar: "sc",
-        },
-        {
-            id: 2,
-            senderid: 1,
-            username: "dev",
-            time: '2:00 PM',
-            text: "Hey Welcome to Hopeconnect",
-            avatar: "sc",
-        },
-    ]);
+    const [conversations, setconversations] = useState([]);
+    const [messages, setmessages] = useState([]);
     const [peoples, setpeoples] = useState([
         {
             id: 1,
             name: 'John Doe',
             username: '@johndoe',
             role: 'Student',
-            avatar: 'https://via.placeholder.com/40',
-            status: 'online',
+            avatar: 'http://via.placeholder.com/40',
             description: 'Passionate about mental health advocacy and peer support. Currently pursuing psychology studies.'
         },
         {
@@ -85,8 +32,7 @@ export default function Connect() {
             name: 'Jane Smith',
             username: '@janesmith',
             role: 'Counselor',
-            avatar: 'https://via.placeholder.com/40',
-            status: 'offline',
+            avatar: 'http://via.placeholder.com/40',
             description: 'Licensed counselor with 5 years of experience in anxiety and stress management.'
         },
         {
@@ -94,8 +40,7 @@ export default function Connect() {
             name: 'Mike Johnson',
             username: '@mikej',
             role: 'Student',
-            avatar: 'https://via.placeholder.com/40',
-            status: 'online',
+            avatar: 'http://via.placeholder.com/40',
             description: 'Active member of the peer support community. Interested in mindfulness and meditation.'
         },
         {
@@ -103,37 +48,135 @@ export default function Connect() {
             name: 'Sarah Wilson',
             username: '@sarahw',
             role: 'Counselor',
-            avatar: 'https://via.placeholder.com/40',
-            status: 'offline',
+            avatar: 'http://via.placeholder.com/40',
             description: 'Specialized in adolescent counseling and family therapy. Available for group sessions.'
         }
     ]);
 
-    const filteredPeoples = peoples.filter(person =>
+    const username = localStorage.getItem('username');
+    const Id = localStorage.getItem('Id');
+    //// IMPORTING CHATS
+    useEffect(() => {
+        async function fun() {
+            const token = localStorage.getItem("token");
+            try {
+                const response = await fetch(`/api/users/chats?username=${encodeURIComponent(username)}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                });
+                const { updatedConversations, updatedMessages } = await response.json();
+                setmessages(updatedMessages);
+                setconversations(updatedConversations);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        fun();
+    }, []);
+
+    const filteredPeoples = (peoples || []).filter(person =>
         (person.name?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "") ||
         (person.username?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
     );
 
-    const filteredconversations = conversations.filter(session =>
+    const filteredconversations = (conversations || []).filter(session =>
         (session.another_user?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "") ||
-        (session.last_text?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
+        (session.lastText?.toLowerCase() || "").includes(searchQuery?.toLowerCase() || "")
     );
 
-    const filteredMessages = messages
-        .filter(msg => msg.id === conv_id) // Filter messages with id = 1
-        .sort((a, b) => new Date(`1970/01/01 ${a.time}`) - new Date(`1970/01/01 ${b.time}`)); // Sort by time
+    const filteredMessages = (messages || []).filter(msg => msg.id === conv_id).sort((a, b) => new Date(`1970/01/01 ${a.time}`) - new Date(`1970/01/01 ${b.time}`)); // Sort by time
+
+    //console.log(filteredMessages);
 
     const openchat = (id) => {
         setchat(true);
         setconv_id(id);
     };
 
+    // ACTIVATING USER BY SENDING TOKEN
+    useEffect(() => {
+        if (!socket) return;
+
+        if (token) {
+            socket.emit("token", token);
+            console.log("token emitted to server:", token);
+        }
+    }, [token]);
+
+    // RECEVING MESSAGES
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on('receiveMessage', ({ senderId, msg, username }) => {
+            const filteredconversatt = conversations.find(
+                conv =>
+                    (conv.user1_id === senderId && conv.user2_id === Id) ||
+                    (conv.user1_id === Id && conv.user2_id === senderId)
+            );
+
+            if (filteredconversatt) {
+                const newReceivedMessage = {
+                    senderid: senderId,
+                    username: username,
+                    avatar: null,
+                    text: msg,
+                    time: new Date().toISOString(),
+                    id: filteredconversatt.id,
+                    uniq: uuidv4()
+                };
+                setmessages(prev => [...prev, newReceivedMessage]);
+            }
+            else {
+                console.log("didn't find conv id");
+            }
+
+        });
+
+        // Cleanup to avoid duplicate listeners on re-renders
+        return () => {
+            socket.off('receiveMessage');
+        };
+    }, [socket, conversations, Id]);
+
+
     const handleSendMessage = () => {
 
-    }
+        //Sending
+        const inputValue = inputRef.current.value;
+        const filteredconversat = filteredconversations.find(conv => conv.id === conv_id);
+        const user1 = filteredconversat.user1_id;
+        const user2 = filteredconversat.user2_id;
+        const rec = (user1 === Id) ? user2 : user1;
+
+        if (inputValue) {
+            socket.emit('message', {
+                senderId: Id,
+                receiverId: rec,
+                msg: inputValue,
+                conversationId: conv_id,
+                username: username
+            });
+
+            const newMessage = {
+                senderid: Id,
+                username: username,
+                avatar: null,
+                text: inputValue,
+                time: new Date().toISOString(),
+                id: conv_id,
+                uniq: uuidv4()
+            };
+
+            setmessages((messages) => [...messages, newMessage]);
+            inputRef.current.value = '';
+        }
+
+    };
 
     const current_user = localStorage.getItem('username');
-
     return (
 
         <div className={styles.container}>
@@ -175,7 +218,7 @@ export default function Connect() {
 
                             {filteredPeoples.map(people => (
 
-                                <div className={styles.body1}>
+                                <div className={styles.body1} key={people.id || people.username}>
 
                                     <div className={styles.peopleinfo}>
                                         <div className={styles.avatarcontainer}>
@@ -213,8 +256,8 @@ export default function Connect() {
 
                             {filteredconversations.map(conversation => (
 
-                                <button className={styles.body2} onClick={() => openchat(conversation.id)}>
-                                    <div key={conversation.id} className={styles.conversationCard}>
+                                <button key={conversation.id} className={styles.body2} onClick={() => openchat(conversation.id)}>
+                                    <div className={styles.conversationCard}>
                                         <div className={styles.conversationInfo}>
                                             <div className={styles.conversationHeader}>
                                                 <div className={styles.avatarcontainer}>
@@ -228,7 +271,7 @@ export default function Connect() {
                                             </div>
                                             <div className={styles.conversationDetails}>
                                                 <span className={styles.participants}>
-                                                    {conversation.last_text}
+                                                    {conversation.lastText}
                                                 </span>
                                             </div>
                                         </div>
@@ -248,7 +291,7 @@ export default function Connect() {
                                     <div className={styles.messagesList}>
                                         {filteredMessages.map(message => (
                                             <div
-                                                key={message.id}
+                                                key={message.uniq}
                                                 className={`${styles.message} ${message.username === current_user ? styles.sentMessage : styles.receivedMessage}`}>
                                                 <div className={styles.messageContent}>
                                                     <p>{message.text}</p>
@@ -259,12 +302,11 @@ export default function Connect() {
                                     </div>
 
                                     {/* FOR MESSAGING */}
-                                    <form className={styles.messageInput} onSubmit={handleSendMessage}>
+                                    <form className={styles.messageInput} onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
                                         <input
                                             type="text"
                                             placeholder="Type a message..."
-                                            value={messageInput}
-                                            onChange={(e) => setMessageInput(e.target.value)}
+                                            ref={inputRef}
                                         />
                                         <button type="submit">
                                             <Send size={20} />

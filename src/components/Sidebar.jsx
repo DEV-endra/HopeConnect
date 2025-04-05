@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import styles from "../styles/side-bar.module.css";
 
 export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUserData }) {
-    console.log(isopen);
+    // console.log(isopen);
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(isopen);
 

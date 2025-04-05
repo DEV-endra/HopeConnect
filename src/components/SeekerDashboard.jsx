@@ -63,7 +63,7 @@ export default function SeekerDashboard() {
 
   const togglePostExpansion = (username) => {
     setExpandedPost(expandedPost === username ? null : username);
-    console.log(username);
+    // console.log(username);
   };
 
   const handleTextChange = (event) => {
@@ -76,8 +76,8 @@ export default function SeekerDashboard() {
     const role = localStorage.getItem("role");
     const username = localStorage.getItem("username");
     const token = localStorage.getItem("token");
-    console.log(role);
-    console.log(username);
+    //   console.log(role);
+    // console.log(username);
     const content = text.substring(0, 150);
     try {
       const response = await fetch("/api/users/posted", {

@@ -29,6 +29,7 @@ export default function Login() {
         localStorage.setItem("role", data.role);
         localStorage.setItem("username", data.username);
         localStorage.setItem("name", data.name);
+        localStorage.setItem("Id", data.Id);
 
         alert("Login successfull!");
         const role = (data.role);
