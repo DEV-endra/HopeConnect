@@ -8,7 +8,7 @@ import DashBoard from "./components/DashBoard.jsx"
 import HelperDashBoard from "./components/HelperDashboard.jsx"
 import SeekerDashBoard from "./components/SeekerDashboard.jsx"
 import Connect from "./components/Connect.jsx"
-
+import Philosophy from "./components/Philosophy.jsx";
 const isAuthenticated = () => {
   // Check if the user is authenticated (e.g., token exists, session active)
   return localStorage.getItem('token') !== null;
@@ -49,6 +49,10 @@ const routes = [
   {
     path: "/map", // New route for the Map Page
     element: <HelperMap />,
+  },
+  {
+    path: "/philosophy", // New route for the Map Page
+    element: <Philosophy />,
   },
   {
     path: "/connect",

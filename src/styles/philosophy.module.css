@@ -1,0 +1,360 @@
+/* Shared Base Styles */
+.page1,
+.page2 {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f7f7f8;
+    background-image: url('../assets/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Left Sidebar Styles (shared) */
+.homeButton,
+.newChat,
+.profile {
+    position: fixed;
+    left: 0;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    z-index: 10;
+}
+
+.homeButton {
+    top: 20px;
+}
+
+.newChat {
+    top: 80px;
+}
+
+.profile {
+    bottom: 20px;
+}
+
+/* Button Styles (shared) */
+.button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* WELCOME VIEW (page2) */
+.page2 .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-left: 80px;
+    height: 100vh;
+}
+
+.page2 .inputBox {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    margin-top: 20vh;
+}
+
+/* CHAT VIEW (page1) */
+.page1 {
+    flex-direction: column;
+    padding-left: 80px;
+}
+
+/* Search Bar Container */
+.seachOption {
+    position: fixed;
+    top: 0;
+    left: 80px;
+    right: 0;
+    padding: 15px 20px;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    /* Center the search container */
+}
+
+/* Search Input Container */
+.searchContainer {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    /* Ensure it doesn't overflow */
+}
+
+/* Search Button (initial state) */
+.open {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    margin: 0 auto;
+    /* Center the button */
+}
+
+/* Search Input Field (expanded state) */
+.search {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(209, 213, 219, 0.5);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    /* Prevent overflow */
+}
+
+.search:focus {
+    outline: none;
+    border-color: #10a37f;
+    box-shadow: 0 2px 10px rgba(16, 163, 127, 0.2);
+}
+
+/* Search Icon */
+.searchIcon {
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+/* Animation for expanding */
+@keyframes expandSearch {
+    from {
+        width: 40px
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+.search {
+    animation: expandSearch 0.3s ease forwards;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .seachOption {
+        left: 60px;
+        padding: 10px;
+    }
+
+    .search {
+        padding-left: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .seachOption {
+        left: 50px;
+        padding: 8px;
+    }
+}
+
+/* Chat Content Area */
+.chatContent {
+    flex: 1;
+    width: 100%;
+    padding: 80px 20px 120px;
+    overflow-y: auto;
+    background: transparent;
+}
+
+.messagesList {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Message Bubbles */
+.message {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+    backdrop-filter: blur(2px);
+}
+
+.sentMessage {
+    align-self: flex-end;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border-radius: 8px;
+}
+
+.receivedMessage {
+    align-self: flex-start;
+    background-color: rgba(88, 181, 158, 0.9);
+    color: white;
+    border-radius: 8px;
+}
+
+.messageContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.messageTime {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin-top: 4px;
+    align-self: flex-end;
+}
+
+/* Input Area */
+.querycontent {
+    width: 100%;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 80px;
+    right: 0;
+    background: transparent;
+    backdrop-filter: blur(5px);
+}
+
+.inputBox {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+}
+
+/* Shared Input Styles */
+.queryBox {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(209, 213, 219, 0.7);
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.queryBox:focus {
+    outline: none;
+    border-color: #10a37f;
+    box-shadow: 0 2px 15px rgba(16, 163, 127, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.queryBox::placeholder {
+    color: #9ca3af;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+
+    .page1,
+    .page2 {
+        padding-left: 60px;
+    }
+
+    .homeButton,
+    .newChat,
+    .profile {
+        width: 50px;
+        padding: 0.8rem 0;
+    }
+
+    .homeButton {
+        top: 10px;
+    }
+
+    .newChat {
+        top: 60px;
+    }
+
+    .profile {
+        bottom: 10px;
+    }
+
+    .button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .seachOption,
+    .querycontent {
+        left: 60px;
+        padding: 10px 15px;
+    }
+
+    .inputBox,
+    .search {
+        max-width: 95%;
+    }
+
+    .message {
+        max-width: 80%;
+    }
+
+    .chatContent {
+        padding: 70px 15px 100px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .page1,
+    .page2 {
+        padding-left: 50px;
+    }
+
+    .homeButton,
+    .newChat,
+    .profile {
+        width: 44px;
+    }
+
+    .seachOption,
+    .querycontent {
+        left: 50px;
+    }
+
+    .message {
+        max-width: 85%;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .queryBox,
+    .search {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+}
