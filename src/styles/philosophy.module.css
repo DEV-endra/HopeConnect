@@ -80,6 +80,7 @@
 .page1 {
     flex-direction: column;
     padding-left: 80px;
+    background-attachment: fixed;
 }
 
 /* Search Bar Container */
@@ -332,7 +333,7 @@
 
     .page1,
     .page2 {
-        padding-left: 50px;
+        padding-left: 40px;
     }
 
     .homeButton,

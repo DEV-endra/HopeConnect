@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/philosophy.module.css';
 import { MessageSquarePlus, House, Send, UserRound, Search } from 'lucide-react';
 // import bg from "../assets/bg.png"
+import { v4 as uuidv4 } from 'uuid';
 
 export default function philosophy() {
     const query = useRef(null);
@@ -10,56 +11,62 @@ export default function philosophy() {
     const [searchChat, setSearchChat] = useState('');
     const [messages, setmessages] = useState([]);
     const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+    const chatContentRef = useRef(null);
+    const token = localStorage.getItem("token");
+    const current_user = localStorage.getItem("username");
+
 
     useEffect(() => {
-        console.log("Dev");
-        setmessages([{
-            id: 137,
-            username: 'dev',
-            text: 'Hi soumya',
-            time: '2025-04 -09T12: 27:08.036Z',
-        },
-        {
-            id: 138,
-            username: '82904a2a-5aee-471d-a4ec-37b53b736e57',
-            text: 'hi dev',
-            time: '2025-04 -09T12: 27: 11.677Z',
-        },
-        {
-            id: 139,
-            username: 'dev',
-            text: 'how doing',
-            time: '2025-04 -09T12: 27: 18.847Z',
-        }])
+        async function fun() {
+        try {
+            const response = await fetch("/api/users/history", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+            });
+            const res = await response.json();
+            console.log(res);
+            setmessages(res);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        }
+        fun();
     }, [])
 
+
     const handleQuery = () => {
-        setSubmitted(true)
+        const querr=query.current.value;
+        setmessages(messages => [...messages, {
+             id:uuidv4(),
+             username:current_user,
+             text:querr,
+             time:new Date().toISOString(),
+        }]);
+        query.current.value='';
+        async function fun() {
+            try {
+                const response = await fetch(`/api/users/philosophy?query=${encodeURIComponent(querr)}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                });
+                const res = await response.json();
+                console.log(res);
+                setmessages(messages => [...messages,res]);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        fun();
+     
     }
 
-    // const filteredMessages = (messages || []).filter(msg => msg.id === conv_id).sort((a, b) => new Date(`1970/01/01 ${a.time}`) - new Date(`1970/01/01 ${b.time}`)); // Sort by time
-    const filteredMessages = [
-        {
-            id: 137,
-            username: 'dev',
-            text: 'Hi soumya',
-            time: '2025-04 -09T12: 27:08.036Z',
-        },
-        {
-            id: 138,
-            username: '82904a2a-5aee-471d-a4ec-37b53b736e57',
-            text: 'hi dev',
-            time: '2025-04 -09T12: 27: 11.677Z',
-        },
-        {
-            id: 139,
-            username: 'dev',
-            text: 'how doing',
-            time: '2025-04 -09T12: 27: 18.847Z',
-        }
-    ];
-
-    const current_user = "dev";
+    const filteredMessages = (messages || []).filter(msg => msg.text.toLowerCase().includes(searchChat.toLowerCase()))
 
     return (
         submitted ? (
@@ -90,7 +97,7 @@ export default function philosophy() {
                             {isSearchExpanded ? (
                                 <input
                                     type="text"
-                                    placeholder="Search chats"
+                                    placeholder="Search older chats"
                                     value={searchChat}
                                     onChange={(e) => setSearchChat(e.target.value)}
                                     className={styles.search}
@@ -127,19 +134,18 @@ export default function philosophy() {
 
                     <div className={styles.querycontent}>
                         <form className={styles.inputBox} onSubmit={(e) => { e.preventDefault(); handleQuery() }}>
-                            <input
-                                type="text"
-                                placeholder='Express yourself'
-                                ref={query}
-                                className={styles.queryBox}
-                            >
-                            </input>
-                            <button className={styles.button} type='submit'>
-                                <Send size={20} />
-                            </button>
+                                <input
+                                    type="text"
+                                    placeholder='Express yourself'
+                                    ref={query}
+                                    className={styles.queryBox}
+                                >
+                                </input>
+                                <button className={styles.button} type='submit'>
+                                    <Send size={20} />
+                                </button>
                         </form>
                     </div>
-
 
                 </div >
 
@@ -166,17 +172,17 @@ export default function philosophy() {
                 </div>
 
                 <div className={styles.content}>
-                    <form className={styles.inputBox} onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}>
-                        <input
+                    <form className={styles.inputBox} onSubmit={(e) => { e.preventDefault(); setSubmitted(true); handleQuery() }}>
+                            <input
                             type="text"
                             placeholder='Express yourself'
                             ref={query}
                             className={styles.queryBox}
-                        >
-                        </input>
-                        <button className={styles.button} type='submit'>
-                            <Send size={20} />
-                        </button>
+                            >
+                            </input>
+                            <button className={styles.button} type='submit'>
+                               <Send size={20} />
+                            </button>
                     </form>
                 </div>
 
