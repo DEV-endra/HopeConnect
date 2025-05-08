@@ -29,7 +29,7 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
       localStorage.setItem("Id", data.Id);
 
       if (formData.role === "helpee")
-        navigate("/SeekerDashboard");
+        navigate("/HelpeeDashboard");
       else {
         navigate("/HelperDashboard");
       }

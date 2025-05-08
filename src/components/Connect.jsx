@@ -250,7 +250,7 @@ export default function Connect() {
 
             {/* NAVBAR */}
             <div className={styles.nav}>
-                <button onClick={() => role === 'helpee' ? navigate('/SeekerDashboard') : navigate('/HelperDashboard')}>
+                <button onClick={() => role === 'helpee' ? navigate('/HelpeeDashboard') : navigate('/HelperDashboard')}>
                     <ArrowLeft />
                 </button>
 

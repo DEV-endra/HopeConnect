@@ -8,7 +8,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 
-export default function SeekerDashboard() {
+export default function HelperDashboard() {
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(50);
@@ -96,6 +96,40 @@ export default function SeekerDashboard() {
     // console.log(text);
   };
 
+  function formatTimestamp(createdAt) {
+    const date = new Date(createdAt);
+    const now = new Date();
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInWeeks = Math.floor(diffInDays / 7);
+
+    if (diffInSeconds < 60) {
+      return "Just now";
+    } else if (diffInMinutes < 60) {
+      return `${diffInMinutes}m`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h`;
+    } else if (diffInDays < 7) {
+      return `${diffInDays}d`;
+    } else if (diffInWeeks < 4) {
+      return `${diffInWeeks}w`;
+    } else {
+      // For older posts, show the date
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric"
+      });
+    }
+  }
+
   return (
     <div className={styles.dashboard}>
 
@@ -180,7 +214,7 @@ export default function SeekerDashboard() {
                       {/* <span>{post.role}</span> */}
                     </div>
                   </div>
-                  <span className={styles.timestamp}>{new Date(post.createdAt).toLocaleString()}</span>
+                  <span className={styles.timestamp}>{formatTimestamp(post.createdAt)}</span>
                 </div>
 
                 {/* POST CONTENT */}

@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp.jsx"
 import Login from "./components/LoginPage.jsx"
 import DashBoard from "./components/DashBoard.jsx"
 import HelperDashBoard from "./components/HelperDashboard.jsx"
-import SeekerDashBoard from "./components/SeekerDashboard.jsx"
+import HelpeeDashBoard from "./components/HelpeeDashboard.jsx"
 import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
 const isAuthenticated = () => {
@@ -43,8 +43,8 @@ const routes = [
     element: isAuthenticated() ? <HelperDashBoard /> : <Login />,
   },
   {
-    path: "/SeekerDashBoard", // New route for the Map Page
-    element: isAuthenticated() ? <SeekerDashBoard /> : <Login />,
+    path: "/HelpeeDashBoard", // New route for the Map Page
+    element: isAuthenticated() ? <HelpeeDashBoard /> : <Login />,
   },
   {
     path: "/map", // New route for the Map Page
