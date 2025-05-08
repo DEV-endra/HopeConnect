@@ -19,6 +19,25 @@ export default function Connect() {
     const [conversations, setconversations] = useState([]);
     const [messages, setmessages] = useState([]);
     const [newconv, setnewconv] = useState({});
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    useEffect(() => {
+        if (chat) {
+            // Small timeout to ensure DOM is updated after state changes
+            setTimeout(() => {
+                scrollToBottom();
+            }, 100);
+        }
+    }, [chat, conv_id]);
+
     const [peoples, setpeoples] = useState([
         {
             id: 1,
@@ -303,7 +322,7 @@ export default function Connect() {
 
                             {filteredconversations.map(conversation => (
 
-                                <button key={conversation.id} className={styles.body2} onClick={() => openchat(conversation.id)}>
+                                <button key={conversation.id} className={styles.body2} onClick={() => { openchat(conversation.id); scrollToBottom() }}>
                                     <div className={styles.conversationCard}>
                                         <div className={styles.conversationInfo}>
                                             <div className={styles.conversationHeader}>
@@ -346,6 +365,7 @@ export default function Connect() {
                                                 </div>
                                             </div>
                                         ))}
+                                        <div ref={messagesEndRef} />
                                     </div>
 
                                     {/* FOR MESSAGING */}
@@ -365,7 +385,7 @@ export default function Connect() {
                 }
 
             </div>
-        </div>
+        </div >
 
 
     )

@@ -17,6 +17,7 @@ export default function SeekerDashboard() {
   const [posts, setPosts] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     let timeout;
     if (isDeleting) {
@@ -205,7 +206,6 @@ export default function SeekerDashboard() {
                   </button>
                 </div>
 
-
                 {/* POST ACTIONS */}
                 <div className={styles.postActions}>
                   <button className={styles.actionButton}>
@@ -236,7 +236,7 @@ export default function SeekerDashboard() {
           <div className={styles.sidebarCard}>
             <h3>Talk to AI</h3>
             <p>Get immediate support from our AI companion</p>
-            <button className={styles.sidebarButton}>
+            <button className={styles.sidebarButton} onClick={() => navigate('/philosophy')}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
