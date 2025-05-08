@@ -9,6 +9,7 @@ import socket from '../socket';
 export default function Connect() {
 
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
     const inputRef = useRef(null);
     const [tab, settab] = useState('Peoples');
     const navigate = useNavigate();
@@ -249,12 +250,11 @@ export default function Connect() {
 
             {/* NAVBAR */}
             <div className={styles.nav}>
-                <button onClick={() => navigate('/SeekerDashboard')}>
+                <button onClick={() => role === 'helpee' ? navigate('/SeekerDashboard') : navigate('/HelperDashboard')}>
                     <ArrowLeft />
                 </button>
 
                 <div className={styles.heading}>HopeConnect</div>
-
                 <div>
                     <input
                         type="text"

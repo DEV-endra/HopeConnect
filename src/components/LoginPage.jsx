@@ -33,7 +33,7 @@ export default function Login() {
 
         alert("Login successfull!");
         const role = (data.role);
-        if (role == "helpee")
+        if (role === "helpee")
           navigate("/SeekerDashboard");
         else {
           navigate("/HelperDashboard");

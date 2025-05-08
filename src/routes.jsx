@@ -52,11 +52,11 @@ const routes = [
   },
   {
     path: "/philosophy", // New route for the Map Page
-    element: <Philosophy />,
+    element: isAuthenticated() ? <Philosophy /> : <Login />,
   },
   {
     path: "/connect",
-    element: <Connect />
+    element: isAuthenticated() ? <Connect /> : <Login />,
   },
 ];
 

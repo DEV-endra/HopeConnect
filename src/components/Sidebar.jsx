@@ -22,6 +22,10 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
     const username = localStorage.getItem("username");
     const name = localStorage.getItem("name");
 
+    const logout = () => {  // CLEARING THE LOCAL STORAGE
+        localStorage.clear();
+    }
+
     return (
         <>
             {/* Sidebar */}
@@ -41,11 +45,11 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
                     <NavLink to="/" onClick={onCloseSidebar}>
                         <Settings /> Settings
                     </NavLink>
-                    <NavLink to="/" className={styles.logout} onClick={onCloseSidebar}>
+                    <NavLink to="/" className={styles.logout} onClick={() => { onCloseSidebar; logout() }}>
                         <LogOut className={styles.logoutIcon} /> <div className={styles.logoutText}>Logout</div>
                     </NavLink>
                 </div>
-            </aside>
+            </aside >
         </>
     );
 }
