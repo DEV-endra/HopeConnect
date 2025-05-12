@@ -9,6 +9,8 @@ import HelperDashBoard from "./components/HelperDashboard.jsx"
 import HelpeeDashBoard from "./components/HelpeeDashboard.jsx"
 import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
+import AudioConnect from "./components/AudioConnect.jsx";
+
 const isAuthenticated = () => {
   // Check if the user is authenticated (e.g., token exists, session active)
   return localStorage.getItem('token') !== null;
@@ -58,6 +60,10 @@ const routes = [
     path: "/connect",
     element: isAuthenticated() ? <Connect /> : <Login />,
   },
+  {
+    path: "/audio_connect",
+    element: <AudioConnect />,
+  }
 ];
 
 export default routes;
