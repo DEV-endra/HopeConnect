@@ -82,7 +82,7 @@ export default function Connect() {
         async function fun() {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch(`/api/users/chats?username=${encodeURIComponent(username)}`, {
+                const response = await fetch(`https://hopeconnect-backend.onrender.com/users/chats?username=${encodeURIComponent(username)}`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -214,7 +214,7 @@ export default function Connect() {
             async function fun() {
                 const token = localStorage.getItem("token");
                 try {
-                    const response = await fetch(`/api/users/newconversation?peopleId=${encodeURIComponent(peopleId)}`, {
+                    const response = await fetch(`https://hopeconnect-backend.onrender.com/users/newconversation?peopleId=${encodeURIComponent(peopleId)}`, {
                         method: "GET",
                         headers: {
                             "Authorization": `Bearer ${token}`,

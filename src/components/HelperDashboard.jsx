@@ -46,7 +46,7 @@ export default function HelperDashboard() {
     async function fun() {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("/api/users/posts", {
+        const response = await fetch("https://hopeconnect-backend.onrender.com/users/posts", {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -82,7 +82,7 @@ export default function HelperDashboard() {
     console.log(username);
     const content = text.substring(0, 150);
     try {
-      const response = await fetch("/api/users/posted", {
+      const response = await fetch("https://hopeconnect-backend.onrender.com/users/posted", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,

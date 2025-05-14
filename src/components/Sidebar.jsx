@@ -30,7 +30,7 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
 
     const backToServer = async (new_avatar) => {
         try {
-            const response = await fetch("/api/users/update", {
+            const response = await fetch("https://hopeconnect-backend.onrender.com/users/update", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -55,7 +55,7 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
         if (!file) return;
 
         try {
-            const res = await fetch("/api/users/auth");
+            const res = await fetch("https://hopeconnect-backend.onrender.com/users/auth");
             const { signature, token, expire } = await res.json();
 
             const imagekit = new ImageKit({

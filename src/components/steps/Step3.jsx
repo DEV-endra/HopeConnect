@@ -16,7 +16,7 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
     // Simulate account creation
 
     try {
-      const response = await fetch("/api/SignUp", {
+      const response = await fetch("https://hopeconnect-backend.onrender.com/SignUp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name, username: formData.username, email: formData.email, role: formData.role, password: formData.password }),
