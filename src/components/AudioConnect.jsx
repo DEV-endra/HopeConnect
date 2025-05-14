@@ -1,5 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import socket from '../socket';
+import { motion } from 'framer-motion';
+import styles from "../styles/AudioConnect.module.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
     const API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
@@ -57,7 +60,12 @@ async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
 
 export default function AudioConnect() {
 
+    const role = localStorage.getItem('role');
     const token = localStorage.getItem('token');
+    const [isActive, setIsActive] = useState(false);
+    const [response, setResponse] = useState('');
+    const [input, setInput] = useState('');
+    const navigate = useNavigate();
     // ACTIVATING USER BY SENDING TOKEN
     useEffect(() => {
         if (!socket) return;
@@ -75,8 +83,9 @@ export default function AudioConnect() {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition();
 
-    useEffect(() => {
+    useEffect(() => {   // FOR CHECKING WHEN TO SEND INPUT TO THE GEMINI
         if (listening === false) {
+            setIsActive(false);
             console.log('Speech recognition stopped with transcript:', transcript);
             handleSendMessage();
         }
@@ -85,11 +94,6 @@ export default function AudioConnect() {
     if (!browserSupportsSpeechRecognition) {
         return <span>Browser doesn't support speech recognition.</span>;
     }
-    const startListening = () => SpeechRecognition.startListening({
-        continuous: false,
-        language: 'en-US',
-        interimResults: false
-    });
 
     // RECEVING MESSAGES
     useEffect(() => {
@@ -97,8 +101,9 @@ export default function AudioConnect() {
 
         socket.on('sora_says', ({ reply }) => {
             if (reply.length > 0) {
-                console.log(reply);
                 textToSpeechBrowser(reply);
+                console.log(reply);
+                setResponse(reply);
             }
         });
         // Cleanup to avoid duplicate listeners on re-renders
@@ -111,18 +116,78 @@ export default function AudioConnect() {
     const handleSendMessage = () => {
         console.log(transcript);
         if (transcript.length > 0) {
+            setInput(transcript);
             socket.emit('sora', { transcript });
-            resetTranscript;
+            resetTranscript();
         }
     };
 
+    const toggleVoiceChat = () => {
+
+        const newActiveState = !isActive;
+        setIsActive(newActiveState);
+        if (newActiveState) {
+            console.log("Starting voice recording...");
+            SpeechRecognition.startListening({
+                continuous: false,
+                language: 'en-US',
+                interimResults: false
+            });
+        } else {
+            SpeechRecognition.stopListening();
+            console.log("Stopping voice recording...");
+        }
+    }
+
+    const onBack = () => {
+
+        if (role === 'helpee')
+            navigate('/HelpeeDashBoard');
+        else
+            navigate('/HelperDashBoard');
+    };
+
     return (
-        <div>
-            <p>Microphone: {listening ? 'on' : 'off'}</p>
-            <button onClick={startListening}>Start</button>
-            <button onClick={SpeechRecognition.stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
-            <p>{transcript}</p>
+
+        // back button
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <button className={styles.backButton} onClick={onBack} aria-label="Go back to home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#00C9A7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-arrow-left" viewBox="0 0 24 24">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                </button>
+                <div className={styles.headerTitle}>HopeConnect</div>
+            </div>
+
+            {/* // response and input  */}
+            <div className={styles.chatArea}>
+                <p className={`${styles.message} ${styles.userMessage}`}>{input}</p>
+                <p className={`${styles.message} ${styles.aiMessage}`}>{response}</p>
+            </div>
+
+            <div className={styles.controls}>
+                <motion.button
+                    className={styles.voiceButton}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={toggleVoiceChat}
+                    animate={{
+                        boxShadow: isActive ? '0 0 15px rgba(0, 201, 167, 0.6)' : 'none',
+                        backgroundColor: isActive ? '#00C9A7' : '#fff',
+                        color: isActive ? '#fff' : '#00C9A7'
+                    }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                    </svg>
+                </motion.button>
+                <div className={styles.statusText}>
+                    {isActive ? "Listening..." : "Tap to speak"}
+                </div>
+            </div>
         </div>
     );
 

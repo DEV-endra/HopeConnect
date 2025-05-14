@@ -62,7 +62,7 @@ const routes = [
   },
   {
     path: "/audio_connect",
-    element: <AudioConnect />,
+    element: isAuthenticated() ? <AudioConnect /> : <Login />,
   }
 ];
 
