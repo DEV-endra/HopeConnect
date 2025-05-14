@@ -15,6 +15,16 @@ export default function philosophy() {
     const token = localStorage.getItem("token");
     const current_user = localStorage.getItem("username");
     const messagesEndRef = useRef(null)
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role');
+
+    const onBack = () => {
+
+        if (role === 'helpee')
+            navigate('/HelpeeDashBoard');
+        else
+            navigate('/HelperDashBoard');
+    };
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -83,7 +93,7 @@ export default function philosophy() {
 
                 {/* SIDE BAR COMPONENTS */}
                 <div className={styles.homeButton}>
-                    <button className={styles.button} type='submit'>
+                    <button className={styles.button} type='submit' onClick={onBack}>
                         <House size={20} />
                     </button>
                 </div>

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "../styles/side-bar.module.css";
+import ImageKit from "imagekit-javascript";
 
 export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUserData }) {
     // console.log(isopen);
@@ -21,10 +22,48 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
     const role = localStorage.getItem("role");
     const username = localStorage.getItem("username");
     const name = localStorage.getItem("name");
+    const avatar = localStorage.getItem("avatar");
 
     const logout = () => {  // CLEARING THE LOCAL STORAGE
         localStorage.clear();
     }
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const res = await fetch("/api/users/auth");
+            const { signature, token, expire } = await res.json();
+
+            const imagekit = new ImageKit({
+                publicKey: "public_0x9cs15Cv9JgDRo9ADQqPJJlRjw=",
+                urlEndpoint: "https://ik.imagekit.io/hopeconnect",
+            });
+
+            // Upload to ImageKit
+            imagekit.upload(
+                {
+                    file, // The file object from input
+                    fileName: file.name,
+                    token,
+                    signature,
+                    expire,
+                },
+                (err, result) => {
+                    if (err) {
+                        console.error("Image upload failed:", err);
+                        alert("Upload failed. Try again.");
+                    } else {
+                        console.log("Image uploaded:", result.url);
+                        alert("Avatar changed successfully!");
+                    }
+                }
+            );
+        } catch (err) {
+            console.error("Error fetching signed upload token:", err);
+        }
+    };
 
     return (
         <>
@@ -32,6 +71,17 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
             <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.active : ""}`}>
                 <div className={styles.logo}>Hope Connect</div>
                 <div className={styles.userInfo}>
+                    <div className={styles.avatarContainer}>
+                        <img src={avatar} alt={username} className={styles.Avatar} />
+                        <label className={styles.changeButton}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2" /><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /><circle cx="10" cy="7" r="4" /></svg>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFileChange(e)}
+                            />
+                        </label>
+                    </div>
                     <div className={styles.userDetails}>{name}</div>
                     <div className={styles.userName}>{username}</div>
                     <div className={styles.role}>{role}</div>

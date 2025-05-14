@@ -30,7 +30,7 @@ export default function Login() {
         localStorage.setItem("username", data.username);
         localStorage.setItem("name", data.name);
         localStorage.setItem("Id", data.Id);
-
+        localStorage.setItem("avatar", data.avatar);
         alert("Login successfull!");
         const role = (data.role);
         if (role === "helpee")

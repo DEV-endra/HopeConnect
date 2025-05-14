@@ -124,6 +124,47 @@
     transition: all 0.2s ease;
 }
 
+.avatarContainer {
+    display: flex;
+    flex-direction: row;
+    /* horizontal layout */
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.Avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.changeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    position: relative;
+    bottom: 0px;
+    cursor: pointer;
+    font-size: 1rem;
+    background: #f8f9fa;
+    width: fit-content;
+}
+
+.changeButton input {
+    display: none;
+    /* Hide file input */
+}
+
+.changeButton:hover {
+    background: #e2e6ea;
+}
+
 .role {
     display: flex;
     align-items: center;

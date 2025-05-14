@@ -208,7 +208,7 @@ export default function HelperDashboard() {
                 {/* POST HEADER */}
                 <div className={styles.postHeader}>
                   <div className={styles.postusername}>
-                    <img src="/avatar.png" alt={post.username} className={styles.postAvatar} />
+                    <img src={post.avatar} alt={post.username} className={styles.postAvatar} />
                     <div>
                       <h3>{post.username}</h3>
                       {/* <span>{post.role}</span> */}

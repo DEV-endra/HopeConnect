@@ -92,6 +92,7 @@ export default function Connect() {
                 const { updatedConversations, updatedMessages, Peoples } = await response.json();
                 setmessages(updatedMessages);
                 setconversations(updatedConversations);
+                console.log(updatedConversations);
                 setpeoples(Peoples);
             } catch (error) {
                 console.error("Error:", error);
