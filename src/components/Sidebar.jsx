@@ -18,14 +18,36 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
         // console.log("Prop isopen changed to:", isopen);
         setIsSidebarOpen(isopen);
     }, [isopen]);
-
     const role = localStorage.getItem("role");
     const username = localStorage.getItem("username");
     const name = localStorage.getItem("name");
-    const avatar = localStorage.getItem("avatar");
-
+    var avatar = localStorage.getItem("avatar");
+    // setAvatar(localStorage.getItem("avatar"))
+    const token = localStorage.getItem("token");
     const logout = () => {  // CLEARING THE LOCAL STORAGE
         localStorage.clear();
+    }
+
+    const backToServer = async (new_avatar) => {
+        try {
+            const response = await fetch("/api/users/update", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username: username, avatar: new_avatar }),
+            });
+            if (response.ok) {
+                avatar = new_avatar;
+                localStorage.setItem('avatar', new_avatar);
+            }
+            else {
+                console.error("Error:", error);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 
     const handleFileChange = async (e) => {
@@ -41,10 +63,9 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
                 urlEndpoint: "https://ik.imagekit.io/hopeconnect",
             });
 
-            // Upload to ImageKit
             imagekit.upload(
                 {
-                    file, // The file object from input
+                    file,
                     fileName: file.name,
                     token,
                     signature,
@@ -55,6 +76,7 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
                         console.error("Image upload failed:", err);
                         alert("Upload failed. Try again.");
                     } else {
+                        backToServer(result.url);
                         console.log("Image uploaded:", result.url);
                         alert("Avatar changed successfully!");
                     }
