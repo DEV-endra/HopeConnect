@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import styles from '../../styles/SignUp.module.css';
-import { useNavigate } from 'react-router-dom';
 
 export default function Step3({ onBack, updateFormData, formData, navigate }) {
   const [name, setName] = useState(formData.name || '');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
