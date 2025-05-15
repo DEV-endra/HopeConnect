@@ -11,10 +11,33 @@ import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
 
-const isAuthenticated = () => {
-  // Check if the user is authenticated (e.g., token exists, session active)
-  return localStorage.getItem('token') !== null;
+const isAuthenticated = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return false;
+  try {
+    const response = await fetch("https://hopeconnect-backend.onrender.com/users/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ token: token }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.status === "valid";
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error verifying authentication:", error);
+    return false;
+  }
+
 };
+
+
 const routes = [
   {
     path: "/",
