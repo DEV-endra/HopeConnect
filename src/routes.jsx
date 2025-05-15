@@ -10,33 +10,7 @@ import HelpeeDashBoard from "./components/HelpeeDashboard.jsx"
 import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
-
-const isAuthenticated = async () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) return false;
-  try {
-    const response = await fetch("https://hopeconnect-backend.onrender.com/users/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ token: token }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.status === "valid";
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error("Error verifying authentication:", error);
-    return false;
-  }
-
-};
-
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 const routes = [
   {
@@ -48,44 +22,68 @@ const routes = [
     element: <RoleSelection />,
   },
   {
-    path: "/Splash", // New route for the Map Page
+    path: "/Splash",
     element: <Splash />,
   },
   {
-    path: "/SignUp", // New route for the Map Page
+    path: "/SignUp",
     element: <SignUp />,
   },
   {
-    path: "/Login", // New route for the Map Page
+    path: "/Login",
     element: <Login />,
   },
   {
-    path: "/dashboard", // New route for the Map Page
+    path: "/dashboard",
     element: <DashBoard />,
   },
   {
-    path: "/HelperDashboard", // New route for the Map Page
-    element: isAuthenticated() ? <HelperDashBoard /> : <Login />,
+    path: "/HelperDashboard",
+    element: (
+      <ProtectedRoute>
+        <HelperDashBoard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/HelpeeDashboard", // New route for the Map Page
-    element: isAuthenticated() ? <HelpeeDashBoard /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <HelpeeDashBoard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/map", // New route for the Map Page
-    element: <HelperMap />,
+    element: (
+      <ProtectedRoute>
+        <HelperMap />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/philosophy", // New route for the Map Page
-    element: isAuthenticated() ? <Philosophy /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <Philosophy />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/connect",
-    element: isAuthenticated() ? <Connect /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <Connect />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/audio_connect",
-    element: isAuthenticated() ? <AudioConnect /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <AudioConnect />
+      </ProtectedRoute>
+    ),
   }
 ];
 
