@@ -10,11 +10,8 @@ import HelpeeDashBoard from "./components/HelpeeDashboard.jsx"
 import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
-const isAuthenticated = () => {
-  // Check if the user is authenticated (e.g., token exists, session active)
-  return localStorage.getItem('token') !== null;
-};
 const routes = [
   {
     path: "/",
@@ -25,44 +22,68 @@ const routes = [
     element: <RoleSelection />,
   },
   {
-    path: "/Splash", // New route for the Map Page
+    path: "/Splash",
     element: <Splash />,
   },
   {
-    path: "/SignUp", // New route for the Map Page
+    path: "/SignUp",
     element: <SignUp />,
   },
   {
-    path: "/Login", // New route for the Map Page
+    path: "/Login",
     element: <Login />,
   },
   {
-    path: "/dashboard", // New route for the Map Page
+    path: "/dashboard",
     element: <DashBoard />,
   },
   {
-    path: "/HelperDashBoard", // New route for the Map Page
-    element: isAuthenticated() ? <HelperDashBoard /> : <Login />,
+    path: "/HelperDashboard",
+    element: (
+      <ProtectedRoute>
+        <HelperDashBoard />
+      </ProtectedRoute>
+    ),
   },
   {
-    path: "/HelpeeDashBoard", // New route for the Map Page
-    element: isAuthenticated() ? <HelpeeDashBoard /> : <Login />,
+    path: "/HelpeeDashboard", // New route for the Map Page
+    element: (
+      <ProtectedRoute>
+        <HelpeeDashBoard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/map", // New route for the Map Page
-    element: <HelperMap />,
+    element: (
+      <ProtectedRoute>
+        <HelperMap />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/philosophy", // New route for the Map Page
-    element: isAuthenticated() ? <Philosophy /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <Philosophy />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/connect",
-    element: isAuthenticated() ? <Connect /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <Connect />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/audio_connect",
-    element: isAuthenticated() ? <AudioConnect /> : <Login />,
+    element: (
+      <ProtectedRoute>
+        <AudioConnect />
+      </ProtectedRoute>
+    ),
   }
 ];
 

@@ -21,9 +21,9 @@ export default function philosophy() {
     const onBack = () => {
 
         if (role === 'helpee')
-            navigate('/HelpeeDashBoard');
+            navigate('/HelpeeDashboard');
         else
-            navigate('/HelperDashBoard');
+            navigate('/HelperDashboard');
     };
 
     const scrollToBottom = () => {
@@ -175,7 +175,7 @@ export default function philosophy() {
             (< div className={styles.page2} >
 
                 <div className={styles.homeButton}>
-                    <button className={styles.button} type='submit'>
+                    <button className={styles.button} type='submit' onClick={onBack}>
                         <House size={20} />
                     </button>
                 </div>
