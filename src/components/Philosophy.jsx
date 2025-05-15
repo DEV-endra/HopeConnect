@@ -21,9 +21,9 @@ export default function philosophy() {
     const onBack = () => {
 
         if (role === 'helpee')
-            navigate('/HelpeeDashBoard');
+            navigate('/HelpeeDashboard');
         else
-            navigate('/HelperDashBoard');
+            navigate('/HelperDashboard');
     };
 
     const scrollToBottom = () => {

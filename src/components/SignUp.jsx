@@ -14,9 +14,9 @@ export default function SignUp() {
     email: '',
     password: '',
     name: '',
-    role:''
-    });
-  formData.role=localStorage.getItem('role');
+    role: ''
+  });
+  formData.role = localStorage.getItem('role');
   const handleNextStep = () => {
     if (currentStep < 3) {
       setCurrentStep(prev => prev + 1);
@@ -49,7 +49,7 @@ export default function SignUp() {
   return (
     <div className={styles.pageContainer}>
 
-       {/* LEFT SECTION */}
+      {/* LEFT SECTION */}
 
       <div className={styles.leftSection}>
 
@@ -58,7 +58,7 @@ export default function SignUp() {
         <nav className={styles.navbar}>
           <div className={styles.navRight}>
             <a href="/help" className={styles.helpLink}>Help</a>
-            <button onClick={() => navigate('/login')} className={styles.signInButton}>
+            <button onClick={() => navigate('/Login')} className={styles.signInButton}>
               Sign in
             </button>
           </div>
@@ -70,14 +70,13 @@ export default function SignUp() {
             <h2>Welcome to</h2>
             <h1>HopeConnect</h1>
           </div>
-          
+
           <div className={styles.stepIndicator}>
             {[1, 2, 3].map((step) => (
               <div
                 key={step}
-                className={`${styles.step} ${
-                  step === currentStep ? styles.activeStep : ''
-                } ${step < currentStep ? styles.completedStep : ''}`}
+                className={`${styles.step} ${step === currentStep ? styles.activeStep : ''
+                  } ${step < currentStep ? styles.completedStep : ''}`}
               >
                 {step}
               </div>
@@ -86,9 +85,9 @@ export default function SignUp() {
 
           {renderStep()}
         </div>
-        
+
       </div>
-      
+
       {/*RIGHT SECTION*/}
 
       <div className={styles.rightSection}>

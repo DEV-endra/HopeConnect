@@ -41,11 +41,11 @@ const routes = [
     element: <DashBoard />,
   },
   {
-    path: "/HelperDashBoard", // New route for the Map Page
+    path: "/HelperDashboard", // New route for the Map Page
     element: isAuthenticated() ? <HelperDashBoard /> : <Login />,
   },
   {
-    path: "/HelpeeDashBoard", // New route for the Map Page
+    path: "/HelpeeDashboard", // New route for the Map Page
     element: isAuthenticated() ? <HelpeeDashBoard /> : <Login />,
   },
   {

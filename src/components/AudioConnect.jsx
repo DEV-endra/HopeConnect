@@ -142,9 +142,9 @@ export default function AudioConnect() {
     const onBack = () => {
 
         if (role === 'helpee')
-            navigate('/HelpeeDashBoard');
+            navigate('/HelpeeDashboard');
         else
-            navigate('/HelperDashBoard');
+            navigate('/HelperDashboard');
     };
 
     return (
