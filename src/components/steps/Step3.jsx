@@ -22,6 +22,9 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
         body: JSON.stringify({ name: name, username: formData.username, email: formData.email, role: formData.role, password: formData.password }),
       });
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Signup failed');
+      }
       localStorage.setItem("token", data.token); // Store token for future requests
       localStorage.setItem("role", data.role);
       localStorage.setItem("username", data.username);
@@ -29,10 +32,10 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
       localStorage.setItem("Id", data.Id);
       localStorage.setItem("avatar", data.avatar);
 
-      if (formData.role === "helpee")
-        navigate("/HelpeeDashboard");
-      else {
-        navigate("/HelperDashboard");
+      if (formData.role === "helpee") {
+        navigate("/HelpeeDashboard", { replace: true });
+      } else {
+        navigate("/HelperDashboard", { replace: true });
       }
 
     } catch (error) {
