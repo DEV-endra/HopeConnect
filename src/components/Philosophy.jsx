@@ -26,6 +26,7 @@ export default function philosophy() {
             navigate('/HelperDashboard');
     };
 
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
@@ -175,7 +176,7 @@ export default function philosophy() {
             (< div className={styles.page2} >
 
                 <div className={styles.homeButton}>
-                    <button className={styles.button} type='submit'>
+                    <button className={styles.button} type='submit' onClick={onBack}>
                         <House size={20} />
                     </button>
                 </div>
