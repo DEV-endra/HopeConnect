@@ -4,24 +4,75 @@ import socket from '../socket';
 import { motion } from 'framer-motion';
 import styles from "../styles/AudioConnect.module.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
-    const API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
+// async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {      // eleven labs
+//     const API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
+//     try {
+//         // ElevenLabs API endpoint for text-to-speech
+//         const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Accept': 'audio/mpeg',
+//                 'Content-Type': 'application/json',
+//                 'xi-api-key': API_KEY
+//             },
+//             body: JSON.stringify({
+//                 text: text,
+//                 model_id: 'eleven_multilingual_v2',
+//                 voice_settings: {
+//                     stability: 0.5,
+//                     similarity_boost: 0.5
+//                 }
+//             })
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+
+//         // Get the audio blob
+//         const audioBlob = await response.blob();
+
+//         // Create an audio context
+//         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+//         // Convert blob to array buffer
+//         const arrayBuffer = await audioBlob.arrayBuffer();
+
+//         // Decode the audio data
+//         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+//         // Create a source buffer
+//         const source = audioContext.createBufferSource();
+//         source.buffer = audioBuffer;
+
+//         // Connect to the audio output
+//         source.connect(audioContext.destination);
+
+//         // Play the audio
+//         source.start(0);
+
+//         return source;
+//     } catch (error) {
+//         console.error('Error converting text to speech:', error);
+//         throw error;
+//     }
+// }
+
+async function textToSpeechBrowser(text, voice = 'alloy') {   //OPEN AI
+    const API_KEY = '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';
     try {
-        // ElevenLabs API endpoint for text-to-speech
-        const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+        // OpenAI API endpoint for text-to-speech
+        const response = await fetch('https://api.openai.com/v1/audio/speech', {
             method: 'POST',
             headers: {
-                'Accept': 'audio/mpeg',
                 'Content-Type': 'application/json',
-                'xi-api-key': API_KEY
+                'Authorization': `Bearer ${API_KEY}`
             },
             body: JSON.stringify({
-                text: text,
-                model_id: 'eleven_multilingual_v2',
-                voice_settings: {
-                    stability: 0.5,
-                    similarity_boost: 0.5
-                }
+                model: 'tts-1', // Free TTS model from OpenAI
+                input: text,
+                voice: voice, // Available voices: alloy, echo, fable, onyx, nova, shimmer
+                response_format: 'mp3'
             })
         });
 
