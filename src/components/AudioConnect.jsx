@@ -4,33 +4,171 @@ import socket from '../socket';
 import { motion } from 'framer-motion';
 import styles from "../styles/AudioConnect.module.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
-    const API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
+// async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
+//     const API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
+//     try {
+//         // ElevenLabs API endpoint for text-to-speech
+//         const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Accept': 'audio/mpeg',
+//                 'Content-Type': 'application/json',
+//                 'xi-api-key': API_KEY
+//             },
+//             body: JSON.stringify({
+//                 text: text,
+//                 model_id: 'eleven_multilingual_v2',
+//                 voice_settings: {
+//                     stability: 0.5, 
+//                     similarity_boost: 0.5
+//                 }
+//             })
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+
+//         // Get the audio blob
+//         const audioBlob = await response.blob();
+
+//         // Create an audio context
+//         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+//         // Convert blob to array buffer
+//         const arrayBuffer = await audioBlob.arrayBuffer();
+
+//         // Decode the audio data
+//         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+//         // Create a source buffer
+//         const source = audioContext.createBufferSource();
+//         source.buffer = audioBuffer;
+
+//         // Connect to the audio output
+//         source.connect(audioContext.destination);
+
+//         // Play the audio
+//         source.start(0);
+
+//         return source;
+//     } catch (error) {
+//         console.error('Error converting text to speech:', error);
+//         throw error;
+//     }
+// }
+
+async function textToSpeechBrowser(text, voiceId = 'Ruth') {
+    const AWS_REGION = import.meta.env.VITE_AWS_REGION || 'us-east-1';
+    const AWS_ACCESS_KEY = import.meta.env.VITE_AWS_ACCESS_KEY;
+    const AWS_SECRET_KEY = import.meta.env.VITE_AWS_SECRET_KEY;
+
     try {
-        // ElevenLabs API endpoint for text-to-speech
-        const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+        // Amazon Polly uses the /v1/speech endpoint for real-time synthesis
+        // For larger text, the /v1/synthesiztask async API would be better
+
+        // Create AWS Polly parameters
+        const params = {
+            OutputFormat: 'mp3',
+            Text: text,
+            VoiceId: voiceId,
+            Engine: 'neural', // or 'standard' for non-neural voices
+            TextType: 'text'  // 'text' or 'ssml'
+        };
+
+        // Use AWS SDK Polly client if available
+        if (typeof AWS !== 'undefined' && AWS.Polly) {
+            // AWS SDK approach
+            AWS.config.update({
+                region: AWS_REGION,
+                accessKeyId: AWS_ACCESS_KEY,
+                secretAccessKey: AWS_SECRET_KEY
+            });
+
+            const polly = new AWS.Polly();
+            const synthesizeResponse = await polly.synthesizeSpeech(params).promise();
+
+            // Convert audio data to a buffer for audio playback
+            const audioBuffer = synthesizeResponse.AudioStream.buffer;
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const decodedData = await audioContext.decodeAudioData(audioBuffer);
+
+            // Create audio source
+            const source = audioContext.createBufferSource();
+            source.buffer = decodedData;
+            source.connect(audioContext.destination);
+            source.start(0);
+
+            return source;
+        }
+
+        // Manual approach using fetch and signature v4
+        // Create authorization headers for AWS Signature Version 4
+        const service = 'polly';
+        const host = `${service}.${AWS_REGION}.amazonaws.com`;
+        const endpoint = `https://${host}/v1/speech`;
+        const date = new Date();
+        const amzDate = date.toISOString().replace(/[:\-]|\.\d{3}/g, '');
+        const dateStamp = amzDate.substring(0, 8);
+
+        // Create canonical request
+        const method = 'POST';
+        const canonicalUri = '/v1/speech';
+        const canonicalQueryString = '';
+        const canonicalHeaders =
+            'content-type:application/json\n' +
+            'host:' + host + '\n' +
+            'x-amz-date:' + amzDate + '\n';
+        const signedHeaders = 'content-type;host;x-amz-date';
+        const payloadHash = await sha256(JSON.stringify(params));
+        const canonicalRequest = method + '\n' +
+            canonicalUri + '\n' +
+            canonicalQueryString + '\n' +
+            canonicalHeaders + '\n' +
+            signedHeaders + '\n' +
+            payloadHash;
+
+        // Create string to sign
+        const algorithm = 'AWS4-HMAC-SHA256';
+        const credentialScope = dateStamp + '/' + AWS_REGION + '/' + service + '/aws4_request';
+        const stringToSign = algorithm + '\n' +
+            amzDate + '\n' +
+            credentialScope + '\n' +
+            await sha256(canonicalRequest);
+
+        // Calculate signature
+        const signingKey = await getSignatureKey(AWS_SECRET_KEY, dateStamp, AWS_REGION, service);
+        const signature = await hmacSha256(signingKey, stringToSign, 'hex');
+
+        // Create authorization header
+        const authorizationHeader = algorithm + ' ' +
+            'Credential=' + AWS_ACCESS_KEY + '/' + credentialScope + ', ' +
+            'SignedHeaders=' + signedHeaders + ', ' +
+            'Signature=' + signature;
+
+        // Make the API request
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-                'Accept': 'audio/mpeg',
                 'Content-Type': 'application/json',
-                'xi-api-key': API_KEY
+                'X-Amz-Date': amzDate,
+                'Authorization': authorizationHeader
             },
-            body: JSON.stringify({
-                text: text,
-                model_id: 'eleven_multilingual_v2',
-                voice_settings: {
-                    stability: 0.5,
-                    similarity_boost: 0.5
-                }
-            })
+            body: JSON.stringify(params)
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`Polly API error (${response.status}): ${errorText}`);
         }
 
-        // Get the audio blob
+        // Get the audio blob and process audio
         const audioBlob = await response.blob();
+
+        // Check if we have a valid audio blob
+        if (audioBlob.size === 0) {
+            throw new Error('Received empty audio response from Polly');
+        }
 
         // Create an audio context
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -53,9 +191,76 @@ async function textToSpeechBrowser(text, voiceId = 'JBFqnCBsd6RMkjVDRZzb') {
 
         return source;
     } catch (error) {
-        console.error('Error converting text to speech:', error);
+        console.error('Error converting text to speech with Amazon Polly:', error);
         throw error;
     }
+}
+
+// Helper function for creating SHA-256 hash
+async function sha256(message) {
+    // Use the Web Crypto API
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+    // Convert to hex string
+    return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+// Helper function for creating HMAC-SHA256
+async function hmacSha256(key, message, format = '') {
+    let keyData;
+
+    // Make sure we have the right format for the key
+    if (key instanceof Uint8Array) {
+        keyData = key;
+    } else {
+        keyData = new TextEncoder().encode(key);
+    }
+
+    // Import the key for HMAC usage
+    const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        keyData,
+        { name: 'HMAC', hash: { name: 'SHA-256' } },
+        false,
+        ['sign']
+    );
+
+    // Sign the message
+    const messageData = new TextEncoder().encode(message);
+    const signature = await crypto.subtle.sign(
+        'HMAC',
+        cryptoKey,
+        messageData
+    );
+
+    // Return appropriate format
+    if (format === 'hex') {
+        return Array.from(new Uint8Array(signature))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+    }
+
+    return new Uint8Array(signature);
+}
+
+// Helper function for AWS Signature Version 4
+async function getSignatureKey(key, dateStamp, region, service) {
+    // This is AWS's standard key derivation algorithm for Signature V4
+    const kDate = await hmacSha256('AWS4' + key, dateStamp);
+    const kRegion = await hmacSha256(kDate, region);
+    const kService = await hmacSha256(kRegion, service);
+    const kSigning = await hmacSha256(kService, 'aws4_request');
+    return kSigning;
+}
+
+// Utility function to check if AWS SDK is available and properly loaded
+function isAWSSDKAvailable() {
+    return typeof AWS !== 'undefined' &&
+        typeof AWS.Polly === 'function' &&
+        typeof AWS.config === 'object';
 }
 
 export default function AudioConnect() {
