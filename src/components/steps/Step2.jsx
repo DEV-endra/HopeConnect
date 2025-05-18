@@ -30,13 +30,14 @@ export default function Step2({ onNext, onBack, updateFormData, formData }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !validateEmail(email)) {
       setError('Please enter a valid email address');
       return;
     }
-    if (duplicate(email)) {
+    const isDuplicate = duplicate(email);
+    if (isDuplicate) {
       setError('Email already registered');
       return;
     }
