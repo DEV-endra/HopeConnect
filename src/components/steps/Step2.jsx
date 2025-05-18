@@ -21,22 +21,20 @@ export default function Step2({ onNext, onBack, updateFormData, formData }) {
         body: JSON.stringify({ email: email }),
       });
       const data = await response.json();
-      if (data.verify) {
-        return true;
-      }
-      return false;
+      return data.verify;
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !validateEmail(email)) {
       setError('Please enter a valid email address');
       return;
     }
-    if (duplicate(email)) {
+    const isDuplicate = await duplicate(email);
+    if (isDuplicate) {
       setError('Email already registered');
       return;
     }
