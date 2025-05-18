@@ -5,14 +5,31 @@ export default function Step1({ onNext, updateFormData, formData }) {
   const [username, setUsername] = useState(formData.username);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username.trim()) {
       setError('Please enter a username');
       return;
     }
-    updateFormData({ username });
-    onNext();
+    try {
+      const response = await fetch("https://hopeconnect-backend.onrender.com/users/username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: username }),
+      });
+      const data = await response.json();
+      if (!data.verify) {
+        updateFormData({ username });
+        onNext();
+      } else {
+        setError('Username already exists');
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
   };
 
   return (
