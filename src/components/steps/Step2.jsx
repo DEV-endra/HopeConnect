@@ -36,7 +36,7 @@ export default function Step2({ onNext, onBack, updateFormData, formData }) {
       setError('Please enter a valid email address');
       return;
     }
-    const isDuplicate = duplicate(email);
+    const isDuplicate = await duplicate(email);
     if (isDuplicate) {
       setError('Email already registered');
       return;
