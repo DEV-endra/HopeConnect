@@ -11,10 +11,33 @@ export default function Step2({ onNext, onBack, updateFormData, formData }) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  const duplicate = async (email) => {
+    try {
+      const response = await fetch("/api/users/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: email }),
+      });
+      const data = await response.json();
+      if (data.verify) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !validateEmail(email)) {
       setError('Please enter a valid email address');
+      return;
+    }
+    if (duplicate(email)) {
+      setError('Email already registered');
       return;
     }
     if (!password || password.length < 8) {
