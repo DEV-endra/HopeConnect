@@ -17,6 +17,8 @@ export default function Login() {
       return;
     }
 
+    fetch("https://hopeconnect-backend-1.onrender.com/health")    //dummy fetch for waking fast apiserver
+      .catch(error => console.error("Error waking FastAPI server:", error.message));
 
     try {
       const response = await fetch("https://hopeconnect-backend.onrender.com/Login", {

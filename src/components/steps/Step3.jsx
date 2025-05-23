@@ -15,6 +15,9 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
     updateFormData({ name });
     // Simulate account creation
 
+    fetch("https://hopeconnect-backend-1.onrender.com/health")        //dummy fetch for waking fast apiserver
+      .catch(error => console.error("Error waking FastAPI server:", error.message));
+
     try {
       const response = await fetch("https://hopeconnect-backend.onrender.com/SignUp", {
         method: "POST",
