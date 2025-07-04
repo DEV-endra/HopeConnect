@@ -23,17 +23,8 @@ export default function RoleSelection() {
           <img src={Logo} alt="HopeConnect" className={styles.logoImage} />
         </div>
         <div className={styles.navRight}>
-          <button
-            onClick={() => navigate("/buildingpage")}
-            className={styles.navLink} >
-            Author
-          </button>
-
-          <button
-            onClick={() => navigate("/buildingpage")}
-            className={styles.navLink}>
-            Blogs
-          </button>
+          <a href="/buildingpage" className={styles.navLink}>Author</a>
+          <a href="/buildingpage" className={styles.navLink}>Blogs</a>
           <a
             href="https://github.com/DEV-endra"
             target="_blank"

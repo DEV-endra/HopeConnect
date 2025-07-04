@@ -17,9 +17,10 @@ const BuildingPage = () => {
                 <p className={styles.message}>
                     Our core features are ready. We’re putting the final pieces in place — check back soon!
                 </p>
-                <a href="/dashboard" className={styles.backBtn}>
+
+                <button className={styles.backBtn} onClick={() => role === 'helpee' ? navigate('/HelpeeDashboard') : navigate('/HelperDashboard')}>
                     ← Back to Dashboard
-                </a>
+                </button>
                 <footer className={styles.footer}>
                     Made with 💙 at HopeConnect
                 </footer>
