@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap");
+
+:root {
+    --bg-color: #edfdf4;
+    --card-bg: #ffffff;
+    --text-dark: #1f2a36;
+    --primary: #00bfa6;
+    --primary-hover: #00a891;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    padding: 20px;
+}
+
+.background-circle {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #c8f7e4 0%, transparent 70%);
+    top: -80px;
+    right: -80px;
+    z-index: 0;
+    border-radius: 50%;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+}
+
+.headline {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px auto;
+    width: 60%;
+}
+
+.message {
+    font-size: 18px;
+    color: #3b4d63;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 0;
+    padding: 10px 24px;
+    font-size: 16px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #7a8ca3;
+}

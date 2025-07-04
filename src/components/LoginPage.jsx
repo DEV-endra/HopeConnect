@@ -116,9 +116,11 @@ export default function Login() {
               </div>
 
               <div className={styles.forgotPassword}>
-                <a href="/forgot-password">Forgot password?</a>
+                <button
+                  onClick={() => navigate("/buildingpage")}>
+                  Forgot password?
+                </button>
               </div>
-
               {error && <span className={styles.error}>{error}</span>}
 
               <button type="submit" className={styles.button}>

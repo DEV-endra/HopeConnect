@@ -109,12 +109,12 @@ export default function SideBar({ isopen, onCloseSidebar, userData, onUpdateUser
                     <div className={styles.role}>{role}</div>
                 </div>
                 <nav className={styles.menu}>
-                    <NavLink to="/" className={({ isActive }) => isActive ? styles.active : ""} onClick={onCloseSidebar}>
+                    <NavLink to="/buildingpage" className={({ isActive }) => isActive ? styles.active : ""} onClick={onCloseSidebar}>
                         <User /> My Posts
                     </NavLink>
                 </nav>
                 <div className={styles.bottomMenu}>
-                    <NavLink to="/" onClick={onCloseSidebar}>
+                    <NavLink to="/buildingpage" onClick={onCloseSidebar}>
                         <Settings /> Settings
                     </NavLink>
                     <NavLink to="/" className={styles.logout} onClick={() => { onCloseSidebar; logout() }}>
