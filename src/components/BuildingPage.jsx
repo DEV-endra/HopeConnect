@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "../styles/building-page.module.css";
 import Logo from "../assets/Logo.png";
+import { get } from "http";
 const BuildingPage = () => {
+
+    const role = localStorage.getItem('role');
     return (
         <main className={styles.mainWrapper}>
             <div className={styles.backgroundCircle} />
