@@ -56,7 +56,7 @@ export default function Login() {
       <div className={styles.leftSection}>
         <nav className={styles.navbar}>
           <div className={styles.navRight}>
-            <a href="/help" className={styles.helpLink}>Help</a>
+            <a href="/buildingpage" className={styles.helpLink}>Help</a>
             <button onClick={() => navigate('/RoleSelection')} className={styles.signUpButton}>
               Sign up
             </button>
