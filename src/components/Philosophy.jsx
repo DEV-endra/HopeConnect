@@ -4,8 +4,12 @@ import styles from '../styles/philosophy.module.css';
 import { MessageSquarePlus, House, Send, UserRound, Search } from 'lucide-react';
 import bg from "../assets/bg.png"
 import { v4 as uuidv4 } from 'uuid';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function philosophy() {
+    const [progress, setProgress] = useState(0);
+    const [buffer, setBuffer] = useState(10);
     const query = useRef(null);
     const [submitted, setSubmitted] = useState(false);
     const [searchChat, setSearchChat] = useState('');
@@ -18,6 +22,36 @@ export default function philosophy() {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
+
+    // for loading symbol
+    const progressRef = useRef(() => { });
+    useEffect(() => {
+        progressRef.current = () => {
+            if (progress === 100) {
+                setProgress(0);
+                setBuffer(10);
+            } else {
+                setProgress(progress + 1);
+                if (buffer < 100 && progress % 5 === 0) {
+                    const newBuffer = buffer + 1 + Math.random() * 10;
+                    setBuffer(newBuffer > 100 ? 100 : newBuffer);
+                }
+            }
+        };
+    });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            progressRef.current();
+        }, 100);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
+
+
+    // for back button
     const onBack = () => {
 
         if (role === 'helpee')
@@ -25,7 +59,6 @@ export default function philosophy() {
         else
             navigate('/HelperDashboard');
     };
-
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -38,7 +71,7 @@ export default function philosophy() {
     useEffect(() => {
         async function fun() {
             try {
-                const response = await fetch("https://hopeconnect-backend.onrender.com/users/history", {
+                const response = await fetch("/https://hopeconnect-backend.onrender.com//users/history", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -65,9 +98,20 @@ export default function philosophy() {
             time: new Date().toISOString(),
         }]);
         query.current.value = '';
+
+        // Add temporary loading message
+        const loadingId = uuidv4();
+        const loadingMessage = {
+            id: loadingId,
+            username: "system",
+            text: "!@#$%^&*",
+            time: new Date().toISOString(),
+        };
+        setmessages(messages => [...messages, loadingMessage]);
+
         async function fun() {
             try {
-                const response = await fetch(`https://hopeconnect-backend.onrender.com/users/philosophy?query=${encodeURIComponent(querr)}`, {
+                const response = await fetch(`/https://hopeconnect-backend.onrender.com//users/philosophy?query=${encodeURIComponent(querr)}`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -76,7 +120,13 @@ export default function philosophy() {
                 });
                 const res = await response.json();
                 console.log(res);
-                setmessages(messages => [...messages, res]);
+
+                // Replace loading message with response
+                setmessages(messages => messages.map(msg =>
+                    msg.id === loadingId ? res : msg
+                ));
+                setBuffer(10);
+                setProgress(0);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -142,13 +192,21 @@ export default function philosophy() {
                 <div className={styles.chatContent}>
                     <div className={styles.messagesList} >
                         {filteredMessages.map(message => (
-                            <div
-                                key={message.id}
-                                className={`${styles.message} ${message.username === current_user ? styles.sentMessage : styles.receivedMessage}`}>
-                                <div className={styles.messageContent}>
-                                    {message.text}
+                            message.text === "!@#$%^&*" ?
+                                (<Box sx={{ width: '100%' }}>
+                                    <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} sx={{
+                                        '& .MuiLinearProgress-bar1': {
+                                            backgroundColor: '#5fc6a6', // main progress bar (was blue)
+                                        }
+                                    }} />
+                                </Box>) :
+                                <div
+                                    key={message.id}
+                                    className={`${styles.message} ${message.username === current_user ? styles.sentMessage : styles.receivedMessage}`}>
+                                    <div className={styles.messageContent}>
+                                        {message.text}
+                                    </div>
                                 </div>
-                            </div>
                         ))}
                         <div ref={messagesEndRef} />
                     </div>
