@@ -57,7 +57,7 @@ export default function SignUp() {
 
         <nav className={styles.navbar}>
           <div className={styles.navRight}>
-            <a href="/help" className={styles.helpLink}>Help</a>
+            <a href="/buildingpage" className={styles.helpLink}>Help</a>
             <button onClick={() => navigate('/Login')} className={styles.signInButton}>
               Sign in
             </button>

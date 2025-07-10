@@ -2,8 +2,9 @@ import React from "react";
 import styles from "../styles/building-page.module.css";
 import Logo from "../assets/Logo.png";
 import { get } from "http";
+import { Navigate, useNavigate } from "react-router-dom";
 const BuildingPage = () => {
-
+    const navigate = useNavigate();
     const role = localStorage.getItem('role');
     return (
         <main className={styles.mainWrapper}>
