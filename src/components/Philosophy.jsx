@@ -22,7 +22,6 @@ export default function philosophy() {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
-
     // for loading symbol
     const progressRef = useRef(() => { });
     useEffect(() => {
@@ -79,7 +78,10 @@ export default function philosophy() {
                     },
                 });
                 const res = await response.json();
-                console.log(res);
+                if (!res.ok) {
+                    setmessages([]);
+                    return;
+                }
                 setmessages(res);
             } catch (error) {
                 console.error("Error:", error);

@@ -11,6 +11,7 @@ import Connect from "./components/Connect.jsx"
 import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import AuthChoiceModal from "./components/AuthChoiceModal.jsx";
 
 const routes = [
   {
@@ -32,6 +33,10 @@ const routes = [
   {
     path: "/Login",
     element: <Login />,
+  },
+  {
+    path: "/AuthChoice",
+    element: <AuthChoiceModal/>,
   },
   {
     path: "/dashboard",
