@@ -22,7 +22,6 @@ export default function philosophy() {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
-
     // for loading symbol
     const progressRef = useRef(() => { });
     useEffect(() => {
@@ -79,7 +78,10 @@ export default function philosophy() {
                     },
                 });
                 const res = await response.json();
-                console.log(res);
+                if (!res.ok) {
+                    setmessages([]);
+                    return;
+                }
                 setmessages(res);
             } catch (error) {
                 console.error("Error:", error);
@@ -104,7 +106,7 @@ export default function philosophy() {
         const loadingMessage = {
             id: loadingId,
             username: "system",
-            text: "!@#$%^&*",
+            text: "Thinking",
             time: new Date().toISOString(),
         };
         setmessages(messages => [...messages, loadingMessage]);
@@ -192,7 +194,7 @@ export default function philosophy() {
                 <div className={styles.chatContent}>
                     <div className={styles.messagesList} >
                         {filteredMessages.map(message => (
-                            message.text === "!@#$%^&*" ?
+                            message.text === "Thinking" ?
                                 (<Box sx={{ width: '100%' }}>
                                     <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} sx={{
                                         '& .MuiLinearProgress-bar1': {

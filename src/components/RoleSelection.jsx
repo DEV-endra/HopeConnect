@@ -3,10 +3,20 @@ import { useNavigate } from "react-router-dom"; // Importing navigation hook
 import styles from "../styles/RoleSelection.module.css"; // Importing CSS module
 import Logo from "../assets/Logo.png";
 import SignUp from './SignUp';
+import AuthChoiceModal from "../components/AuthChoiceModal";
+import { useLocation } from "react-router-dom";
 
 export default function RoleSelection() {
   const [role, setRole] = useState(null);
   const navigate = useNavigate(); // Initialize navigation
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    setTimeout(() => setShowModal(true), 400);
+
+  }, []);
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
@@ -15,6 +25,10 @@ export default function RoleSelection() {
   };
 
   return (
+    <>
+
+    {showModal && <AuthChoiceModal />}
+    
     <div className={styles.background}>
 
       <nav className={styles.navbar}>
@@ -67,5 +81,7 @@ export default function RoleSelection() {
 
       </div>
     </div>
+    
+    </>
   );
 }

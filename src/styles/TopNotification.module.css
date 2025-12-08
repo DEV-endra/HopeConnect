@@ -1,0 +1,75 @@
+.notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  min-width: 320px;
+  max-width: 95%;
+  padding: 14px 16px 20px;
+
+  background: #ffe8ea;
+  color: #7f1d1d;
+
+  border-radius: 10px;
+  border-left: 6px solid #f87171;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -30px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1; /* ADD THIS - takes up available space */
+  text-align: center; /* ADD THIS - centers the text */
+  padding: 0 10px; /* ADD THIS - gives breathing room */
+}
+
+.close {
+  background: none;
+  border: none;
+  color: #7f1d1d;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0; /* ADD THIS - prevents button from shrinking */
+}
+
+/* Progress bar */
+.progressWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #fecaca;
+  border-radius: 0 0 10px 10px;
+}
+
+.progress {
+  width: 100%;
+  height: 100%;
+  background: #ef4444;
+  animation: drain linear forwards;
+}
+
+@keyframes drain {
+  from { width: 100% }
+  to   { width: 0% }
+}

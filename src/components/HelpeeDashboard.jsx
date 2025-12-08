@@ -1,10 +1,12 @@
 import Logo from "../assets/Logo.png";
-import { useState, useEffect, useRef } from 'react';
+import { useState,useCallback, useEffect, useRef } from 'react';
 import styles from '../styles/HelpeeDashboard.module.css';
 import profilePic from "../assets/Logo.png";
 import Popup from 'reactjs-popup';
 import Sidebar from "./Sidebar.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
+import AuthChoiceModal from "../components/AuthChoiceModal";
+import TopNotification from "./TopNotification.jsx";
 const welcomeText = "In the midst of winter, I found there was, within me, an invincible summer. And that makes me happy. For it says that no matter how hard the world pushes against me, within me, there's something stronger, something better, pushing right back.";
 
 export default function HelpeeDashboard() {
@@ -17,6 +19,15 @@ export default function HelpeeDashboard() {
   const [posts, setPosts] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const role=localStorage.getItem("role");
+  const [showModal, setShowModal] = useState(false);
+
+  // for notifications
+  const [show, setShow] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setShow(false);
+  }, []);
 
   useEffect(() => {
     let timeout;
@@ -89,11 +100,16 @@ export default function HelpeeDashboard() {
         },
         body: JSON.stringify({ title: "HopeConnect", role: role, username: username, likes: 0, comments: 0, fullcontent: text, content: content }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setShow(true);
+        return;
+      }
     } catch (error) {
       console.error("Error:", error);
     }
     // console.log(text);
-
   };
 
   function formatTimestamp(createdAt) {
@@ -131,8 +147,18 @@ export default function HelpeeDashboard() {
   }
 
   return (
+     
+    <>
+      <TopNotification
+        show={show}
+        message="Guest mode has limited access."
+        duration={3000}
+        onClose={handleClose}
+      />
 
-    <div className={styles.dashboard}>
+      {showModal && <AuthChoiceModal />}
+
+     <div className={styles.dashboard}>
 
       <nav className={styles.navbar}>
         <div className={styles.navLeft}>
@@ -146,13 +172,23 @@ export default function HelpeeDashboard() {
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
           </button>
-          <button className={styles.profileButton} onClick={() => (setIsSidebarOpen(!isSidebarOpen))}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            Profile
-          </button>
+          {role === "guest" ? (
+              <button
+              className={styles.loginButton}
+              onClick={() => navigate("/login")}>
+                Login
+              </button>):(
+              <button
+              className={styles.profileButton}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+                Profile
+              </button>
+          )}
           <Sidebar isopen={isSidebarOpen} onCloseSidebar={() => setIsSidebarOpen(false)} />
         </div>
       </nav >
@@ -317,5 +353,7 @@ export default function HelpeeDashboard() {
         </aside>
       </div>
     </div >
+
+    </>
   );
 }
