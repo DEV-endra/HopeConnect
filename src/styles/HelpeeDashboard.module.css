@@ -140,6 +140,25 @@
   transform: translate(25%, -25%);
 }
 
+.loginButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: #f3f4f6;
+  color: #00c2a8;
+}
+
 .profileButton {
   display: flex;
   align-items: center;
@@ -586,6 +605,16 @@
     margin-left: 3rem;
     /* Space for hamburger menu */
   }
+
+  .loginButton {
+    padding: 0.5rem;
+  }
+
+  .login span {
+    display: none;
+    /* Hide text on mobile */
+  }
+
 
   .profileButton {
     padding: 0.5rem;
