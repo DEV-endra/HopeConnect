@@ -12,7 +12,7 @@ import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import AuthChoiceModal from "./components/AuthChoiceModal.jsx";
-import BuildingPage from "./BuildingPage.jsx";
+import BuildingPage from "./components/BuildingPage.jsx";
 
 const routes = [
   {
