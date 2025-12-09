@@ -12,6 +12,7 @@ import Philosophy from "./components/Philosophy.jsx";
 import AudioConnect from "./components/AudioConnect.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import AuthChoiceModal from "./components/AuthChoiceModal.jsx";
+import BuildingPage from "./BuildingPage.jsx";
 
 const routes = [
   {
@@ -41,6 +42,10 @@ const routes = [
   {
     path: "/dashboard",
     element: <DashBoard />,
+  },
+  {
+    path: "/buildingpage",
+    element: <BuildingPage />,
   },
   {
     path: "/HelperDashboard",
