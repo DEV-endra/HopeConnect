@@ -22,7 +22,7 @@ const BuildingPage = () => {
                     Our core features are ready. We’re putting the final pieces in place — check back soon!
                 </p>
 
-                <button className={styles.backBtn} onClick={() => role === 'helpee' ? navigate('/HelpeeDashboard') : navigate('/HelperDashboard')}>
+                <button className={styles.backBtn} onClick={() => {if(window.history.length>2) navigate(-1); else navigate('/');}}>
                     ← Back to Dashboard
                 </button>
                 <footer className={styles.footer}>
