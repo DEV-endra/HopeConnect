@@ -70,7 +70,7 @@ export default function philosophy() {
     useEffect(() => {
         async function fun() {
             try {
-                const response = await fetch("https://hopeconnect-backend.onrender.com/users/history", {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/history`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -113,7 +113,7 @@ export default function philosophy() {
 
         async function fun() {
             try {
-                const response = await fetch(`https://hopeconnect-backend.onrender.com/users/philosophy?query=${encodeURIComponent(querr)}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/philosophy?query=${encodeURIComponent(querr)}`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,

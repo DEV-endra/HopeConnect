@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        const response = await fetch("https://hopeconnect-backend.onrender.com/users/verify", {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/verify`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token })

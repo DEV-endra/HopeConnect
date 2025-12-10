@@ -15,11 +15,11 @@ export default function Step3({ onBack, updateFormData, formData, navigate }) {
     updateFormData({ name });
     // Simulate account creation
 
-    fetch("https://hopeconnect-backend-1.onrender.com/health")        //dummy fetch for waking fast apiserver
+    fetch(`${import.meta.env.VITE_PYTHON_SERVICE_URL}/health`)        //dummy fetch for waking fast apiserver
       .catch(error => console.error("Error waking FastAPI server:", error.message));
 
     try {
-      const response = await fetch("https://hopeconnect-backend.onrender.com/SignUp", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/SignUp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name, username: formData.username, email: formData.email, role: formData.role, password: formData.password }),

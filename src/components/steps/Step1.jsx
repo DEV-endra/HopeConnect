@@ -12,7 +12,7 @@ export default function Step1({ onNext, updateFormData, formData }) {
       return;
     }
     try {
-      const response = await fetch("https://hopeconnect-backend.onrender.com/users/username", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/username`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

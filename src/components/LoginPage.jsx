@@ -17,11 +17,11 @@ export default function Login() {
       return;
     }
 
-    fetch("https://hopeconnect-backend-1.onrender.com/health")    //dummy fetch for waking fast apiserver
+    fetch(`${import.meta.env.VITE_PYTHON_SERVICE_URL}/health`)    //dummy fetch for waking fast apiserver
       .catch(error => console.error("Error waking FastAPI server:", error.message));
 
     try {
-      const response = await fetch("https://hopeconnect-backend.onrender.com/Login", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/Login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email, password: password }),

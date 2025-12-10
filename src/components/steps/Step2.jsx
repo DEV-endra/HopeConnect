@@ -13,7 +13,7 @@ export default function Step2({ onNext, onBack, updateFormData, formData }) {
 
   const duplicate = async (email) => {
     try {
-      const response = await fetch("https://hopeconnect-backend.onrender.com/users/email", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

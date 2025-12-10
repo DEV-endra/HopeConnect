@@ -7,7 +7,7 @@ export default function AuthChoiceModal() {
   const navigate = useNavigate();
   const continueAsGuest = async () => {
     try {
-      const res = await fetch("https://hopeconnect-backend.onrender.com/GuestSignIn", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/GuestSignIn`, {
         method: "POST"
       });
 
